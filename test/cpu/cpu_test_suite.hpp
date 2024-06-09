@@ -1,7 +1,10 @@
 #pragma once
 
+#include <algorithm>
 #include <arabica/cpu/cpu.hpp>
 #include <arabica/memory/memory.hpp>
+#include <array>
+#include <cstdint>
 #include <gtest/gtest.h>
 
 #define arabica_cpu_test(test_case_name, test_case_body) \
@@ -489,6 +492,25 @@ arabica_cpu_test(test_jp_v0_addr,
   memory.write(0x203, 0x00);
   cpu.run(memory);
   ASSERT_EQ(cpu.pc, 0x301);
+)
+
+arabica_cpu_test(test_rnd_vx_byte,
+  uint8_t key = 0xff;
+  bool tested[256]{false};
+  std::size_t N = 256 * 100;
+
+  for(int i = 0; i < N; i++)
+  {
+    memory.write(0x200, 0xC0);
+    memory.write(0x201, 0xff);
+    cpu.run(memory);
+    ASSERT_TRUE(cpu.registers[0] >= 0 && cpu.registers[0] <= 255);
+
+    tested[cpu.registers[0]] = true;
+    cpu.pc = 0x200;
+  }
+
+  ASSERT_TRUE(std::all_of(std::begin(tested), std::end(tested), [](bool f) { return f;}));
 )
 
 arabica_cpu_test(test_ld_vx_dt,

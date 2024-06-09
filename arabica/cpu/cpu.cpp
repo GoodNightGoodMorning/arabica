@@ -213,7 +213,6 @@ void CPU::run(const Memory& memory) {
       advance_pc(pc, registers[0]);
     } break;
     case OP_CODE::RND_Vx_byte: {
-      // skip unit test for this
       uint8_t x         = (instruction & 0x0F00) >> 8;
       uint8_t kk        = (instruction & 0x00FF);
       uint8_t rand_byte = random(0, 255);
