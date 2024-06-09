@@ -5,6 +5,10 @@ on: [push, pull_request, workflow_dispatch]
 permissions:
   contents: write
 
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  VCPKG_FEATURE_FLAGS: dependencygraph
+
 jobs:
   ci-ubuntu:
     name: Build on Linux (Ubuntu)
@@ -13,19 +17,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: 'recursive'
-      - uses: lukka/get-cmake@latest
-      - name: Setup vcpkg
-        uses: lukka/run-vcpkg@v11
       - name: install dependencies
         run: ./vcpkg.sh
-      - name: Run CMake and vcpkg
-        uses: lukka/run-cmake@v10
-        with:
-          configurePreset: 'ninja-multi-vcpkg'
-          buildPreset: 'ninja-multi-vcpkg'
-          buildPresetAdditionalArgs: "['--config Release']"
-          testPreset: 'ninja-multi-vcpkg'
-          testPresetAdditionalArgs: "['--config Release']"
       - name: build
         run: make build
       - name: build
