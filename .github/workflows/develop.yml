@@ -9,10 +9,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: lukka/get-cmake@latest
-      - name: install SDL2
-        run: sudo apt update -y && sudo apt install -y libsdl2-dev
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
       - name: install dependencies
         run: ./vcpkg.sh
+      - name: Run CMake and vcpkg
+        uses: lukka/run-cmake@v10
+        with:
+          configurePreset: 'ninja-multi-vcpkg'
+          buildPreset: 'ninja-multi-vcpkg'
+          buildPresetAdditionalArgs: "['--config Release']"
+          testPreset: 'ninja-multi-vcpkg'
+          testPresetAdditionalArgs: "['--config Release']"
       - name: build
         run: make build
       - name: build
