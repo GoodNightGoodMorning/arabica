@@ -7,7 +7,7 @@ env:
 
 jobs:
   ci-ubuntu:
-    name: Build on Linux
+    name: Build on Linux (Ubuntu)
     runs-on: ubuntu-latest
     steps:
       - name: Export GitHub Actions cache environment variables
