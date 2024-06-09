@@ -113,6 +113,10 @@ void CPU::run(const Memory& memory) {
       advance_pc(pc);
     } break;
     case OP_CODE::SHR_Vx: {
+      // Remark: historically, the semantics is "right shift V[x] by V[y] amount
+      // and store the result to V[x]" in the original chip8 implementation, however, most of the game
+      // after 90s follows the buggy implementation of HP which ignoring V[y], so we just follow the same for now.
+
       uint8_t x      = (instruction & 0x0F00) >> 8;
       registers[0xF] = registers[x] & 1;
       registers[x]   = registers[x] >> 1;
@@ -129,6 +133,9 @@ void CPU::run(const Memory& memory) {
       advance_pc(pc);
     } break;
     case OP_CODE::SHL_Vx: {
+      // Remark: historically, the semantics is "left shift V[x] by V[y] amount
+      // and store the result to V[x]" in the original chip8 implementation, however, most of the game
+      // after 90s follows the buggy implementation of HP which ignoring V[y], so we just follow the same for now.
       uint8_t x      = (instruction & 0x0F00) >> 8;
       registers[0xF] = (registers[x] >> 7) & 1;
       registers[x]   = registers[x] << 1;

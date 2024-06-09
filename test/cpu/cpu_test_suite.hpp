@@ -276,7 +276,7 @@ arabica_cpu_test(test_shr_vx,
 
   // SHR V[0], expected V[0] = 0x7
   memory.write(0x202, 0x80);
-  memory.write(0x203, 0x16);
+  memory.write(0x203, 0x06);
   cpu.run(memory);
   ASSERT_EQ(cpu.pc, 0x204);
   ASSERT_EQ(cpu.registers[0], 0x7);
@@ -284,7 +284,7 @@ arabica_cpu_test(test_shr_vx,
 
   // SHR V[0], expected V[0] = 0x3
   memory.write(0x204, 0x80);
-  memory.write(0x205, 0x16);
+  memory.write(0x205, 0x06);
   cpu.run(memory);
   ASSERT_EQ(cpu.pc, 0x206);
   ASSERT_EQ(cpu.registers[0], 0x3);
@@ -292,7 +292,7 @@ arabica_cpu_test(test_shr_vx,
 
   // SHR V[0], expected V[0] = 0x1
   memory.write(0x206, 0x80);
-  memory.write(0x207, 0x16);
+  memory.write(0x207, 0x06);
   cpu.run(memory);
   ASSERT_EQ(cpu.pc, 0x208);
   ASSERT_EQ(cpu.registers[0], 0x1);
@@ -300,7 +300,7 @@ arabica_cpu_test(test_shr_vx,
 
   // SHR V[0], expected V[0] = 0x0
   memory.write(0x208, 0x80);
-  memory.write(0x209, 0x16);
+  memory.write(0x209, 0x06);
   cpu.run(memory);
   ASSERT_EQ(cpu.pc, 0x20A);
   ASSERT_EQ(cpu.registers[0], 0x0);
@@ -308,7 +308,7 @@ arabica_cpu_test(test_shr_vx,
 
   // SHR V[0], expected V[0] = 0x0
   memory.write(0x20A, 0x80);
-  memory.write(0x20B, 0x16);
+  memory.write(0x20B, 0x06);
   cpu.run(memory);
   ASSERT_EQ(cpu.pc, 0x20C);
   ASSERT_EQ(cpu.registers[0], 0x0);
@@ -372,7 +372,7 @@ arabica_cpu_test(test_shl_vx,
 
   // SHL V[0], expected V[0] = 0x1E
   memory.write(0x202, 0x80);
-  memory.write(0x203, 0x1E);
+  memory.write(0x203, 0x0E);
   cpu.run(memory);
   ASSERT_EQ(cpu.pc, 0x204);
   ASSERT_EQ(cpu.registers[0], 0x1E);
@@ -380,7 +380,7 @@ arabica_cpu_test(test_shl_vx,
 
   // SHL V[0], expected V[0] = 0x3C
   memory.write(0x204, 0x80);
-  memory.write(0x205, 0x1E);
+  memory.write(0x205, 0x0E);
   cpu.run(memory);
   ASSERT_EQ(cpu.pc, 0x206);
   ASSERT_EQ(cpu.registers[0], 0x3C);
@@ -388,7 +388,7 @@ arabica_cpu_test(test_shl_vx,
 
   // SHL V[0], expected V[0] = 0x78
   memory.write(0x206, 0x80);
-  memory.write(0x207, 0x1E);
+  memory.write(0x207, 0x0E);
   cpu.run(memory);
   ASSERT_EQ(cpu.pc, 0x208);
   ASSERT_EQ(cpu.registers[0], 0x78);
@@ -396,7 +396,7 @@ arabica_cpu_test(test_shl_vx,
 
   // SHL V[0], expected V[0] = 0xF0
   memory.write(0x208, 0x80);
-  memory.write(0x209, 0x1E);
+  memory.write(0x209, 0x0E);
   cpu.run(memory);
   ASSERT_EQ(cpu.pc, 0x20A);
   ASSERT_EQ(cpu.registers[0], 0xF0);
@@ -404,7 +404,7 @@ arabica_cpu_test(test_shl_vx,
 
   // SHL V[0], expected V[0] = 0xE0
   memory.write(0x20A, 0x80);
-  memory.write(0x20B, 0x1E);
+  memory.write(0x20B, 0x0E);
   cpu.run(memory);
   ASSERT_EQ(cpu.pc, 0x20C);
   ASSERT_EQ(cpu.registers[0], 0xE0);
