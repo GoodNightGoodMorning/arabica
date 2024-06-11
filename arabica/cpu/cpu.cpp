@@ -19,7 +19,7 @@ inline T random(T range_from, T range_to) {
 }
 
 void CPU::reset() {
-  pc = Memory::RESERVED;
+  pc = PC_START;
 }
 
 void CPU::run(const Memory& memory) {
