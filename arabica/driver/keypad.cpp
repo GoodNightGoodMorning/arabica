@@ -2,7 +2,7 @@
 
 namespace arabica {
 
-int Keypad::keydown_code{-1};
+volatile int Keypad::keydown_code{-1};
 
 int Keypad::keydown_event(void* data) {
   if (data == nullptr)

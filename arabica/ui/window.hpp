@@ -12,8 +12,8 @@ public:
   Window(const std::string& title, const int width, const int height);
   ~Window();
 
-  Window(Window&&)            = delete;
-  Window& operator=(Window&&) = delete;
+  Window(Window&&)            = default;
+  Window& operator=(Window&&) = default;
 
   void execute();
 
@@ -26,6 +26,7 @@ private:
 
   bool _running = false;
 
+  SDL_TimerID   _timer_id;
   SDL_Event     _event{0};
   SDL_Window*   _window   = nullptr;
   SDL_Renderer* _renderer = nullptr;

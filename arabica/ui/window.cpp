@@ -32,7 +32,7 @@ Window::Window(const std::string& title, const int width, const int height) {
     std::exit(1);
   }
 
-  SDL_AddTimer(2, _ontick, this);
+  _timer_id = SDL_AddTimer(2, _ontick, this);
 }
 
 Window::~Window() {
@@ -45,10 +45,18 @@ void Window::execute() {
   _running = true;
   while (_running) {
     while (SDL_PollEvent(&_event)) {
-      if (_event.type == SDL_QUIT) {
-        _running = false;
-      } else if (_event.type == SDL_KEYDOWN) {
-        on_keyboard(_event.key.keysym.sym);
+      switch (_event.type) {
+        case SDL_QUIT: {
+          SDL_RemoveTimer(_timer_id);
+          _running = false;
+        } break;
+        case SDL_WINDOWEVENT: {
+          if (_event.window.event == SDL_WINDOWEVENT_CLOSE) {
+            SDL_RemoveTimer(_timer_id);
+          }
+        } break;
+        case SDL_KEYDOWN: on_keyboard(_event.key.keysym.sym); break;
+        default: break;
       }
     }
     on_render();
@@ -97,16 +105,6 @@ Uint32 Window::ontick(Uint32 interval, void* userdata) {
   //
   // This design should work even if this is executed on the UI thread, but this is not the case for SDL.
   //
-  if (Keypad::keydown_code != -1) {
-    try {
-      auto keydown_task = std::async(std::launch::async, [this]() {
-        emulator.cpu.irq.store(true, std::memory_order_release);
-      });
-      keydown_task.wait();
-    } catch (const std::exception& e) {
-      fmt::print(stderr, "Exception: {}\n", e.what());
-    }
-  }
   emulator.run();
   return interval;
 }

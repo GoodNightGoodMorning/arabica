@@ -19,15 +19,14 @@ public:
   CPU()  = default;
   ~CPU() = default;
 
-  CPU(CPU&&)            = delete;
-  CPU& operator=(CPU&&) = delete;
+  CPU(CPU&&)            = default;
+  CPU& operator=(CPU&&) = default;
 
   void run(const Memory& memory); // workaround, code refactoring later
   void run(const Memory& memory, const Keypad& keypad);
 
   void reset();
 
-  std::atomic_bool     irq{false};
   uint8_t              registers[REGISTER_COUNT] = {0};
   uint16_t             reg_I{0x0000};
   uint8_t              reg_delay{DEFAULT_RATE_HZ};

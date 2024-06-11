@@ -18,7 +18,7 @@ public:
 
   static int keydown_event(void* data);
 
-  static int keydown_code;
+  static volatile int keydown_code;
 };
 
 } // namespace arabica
