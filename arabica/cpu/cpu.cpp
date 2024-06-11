@@ -252,19 +252,14 @@ void CPU::run(const Memory& memory, const Keypad& keypad) {
       advance_pc(pc);
     } break;
     case OP_CODE::LD_Vx_K: {
-      uint8_t             x          = (instruction & 0x0F00) >> 8;
-      volatile int* const kcode      = &keypad.keydown_code;
-      bool                is_pressed = false;
-      while (!is_pressed) {
-        if (*kcode != -1) {
-          fmt::print("[cpu log] pressed key is {}\n", *kcode);
-          registers[x] = *kcode;
-          *kcode       = -1;
-          fmt::print("[cpu log] reg{} is {}\n", x, registers[x]);
-          is_pressed = true;
-        }
+      uint8_t x = (instruction & 0x0F00) >> 8;
+      if (keypad.keydown_code != -1) {
+        fmt::print("[cpu log] pressed key is {}\n", keypad.keydown_code);
+        registers[x]        = keypad.keydown_code;
+        keypad.keydown_code = -1;
+        fmt::print("[cpu log] reg{} is {}\n", x, registers[x]);
+        advance_pc(pc);
       }
-      advance_pc(pc);
     } break;
     default: {
       // fmt::print("Unknown opcode: 0x{:X}\n", static_cast<uint16_t>(opcode));
