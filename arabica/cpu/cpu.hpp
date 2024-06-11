@@ -1,12 +1,11 @@
 #pragma once
 
-#include <cstdint>
-#include <stack>
-#include <atomic>
 #include <arabica/type/noncopyable.hpp>
 #include <arabica/cpu/op_code.hpp>
 #include <arabica/memory/memory.hpp>
 #include <arabica/driver/keypad.hpp>
+#include <cstdint>
+#include <stack>
 
 namespace arabica {
 

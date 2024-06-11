@@ -1,9 +1,9 @@
 #pragma once
 
-#include <SDL2/SDL.h>
-#include <string>
 #include <arabica/type/noncopyable.hpp>
 #include <arabica/emulator/emulator.hpp>
+#include <SDL2/SDL.h>
+#include <string>
 
 namespace arabica {
 

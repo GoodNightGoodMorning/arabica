@@ -1,8 +1,8 @@
 #include <arabica/cpu/cpu.hpp>
 #include <cstdint>
 #include <cstdlib>
-#include <fmt/core.h>
 #include <random>
+#include <fmt/core.h>
 
 namespace arabica {
 
