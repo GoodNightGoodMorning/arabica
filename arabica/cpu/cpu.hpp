@@ -5,6 +5,7 @@
 #include <arabica/type/noncopyable.hpp>
 #include <arabica/cpu/op_code.hpp>
 #include <arabica/memory/memory.hpp>
+#include <arabica/driver/keypad.hpp>
 
 namespace arabica {
 
@@ -20,8 +21,12 @@ public:
   CPU(CPU&&)            = default;
   CPU& operator=(CPU&&) = default;
 
-  void run(const Memory& memory);
+  void run(const Memory& memory); // workaround, code refactoring later
+  void run(const Memory& memory, const Keypad& keypad);
 
+  void reset();
+
+  bool                 irq{false};
   uint8_t              registers[REGISTER_COUNT] = {0};
   uint16_t             reg_I{0x0000};
   uint8_t              reg_delay{DEFAULT_RATE_HZ};

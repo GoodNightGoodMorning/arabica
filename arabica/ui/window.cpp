@@ -1,4 +1,6 @@
 #include <arabica/ui/window.hpp>
+#include <arabica/driver/keypad.hpp>
+#include <arabica/thread/thread.hpp>
 #include <fmt/core.h>
 
 namespace arabica {
@@ -55,18 +57,22 @@ void Window::execute() {
 
 void Window::on_keyboard(const SDL_Keycode keycode) {
   switch (keycode) {
-    case SDLK_w: {
-      fmt::print("{}\n", "w key pressed");
-    } break;
-    case SDLK_s: {
-      fmt::print("{}\n", "s key pressed");
-    } break;
-    case SDLK_a: {
-      fmt::print("{}\n", "a key pressed");
-    } break;
-    case SDLK_d: {
-      fmt::print("{}\n", "d key pressed");
-    } break;
+    case SDLK_0: emulator.keypad.keydown_code = 0x0; break;
+    case SDLK_1: emulator.keypad.keydown_code = 0x1; break;
+    case SDLK_2: emulator.keypad.keydown_code = 0x2; break;
+    case SDLK_3: emulator.keypad.keydown_code = 0x3; break;
+    case SDLK_4: emulator.keypad.keydown_code = 0x4; break;
+    case SDLK_5: emulator.keypad.keydown_code = 0x5; break;
+    case SDLK_6: emulator.keypad.keydown_code = 0x6; break;
+    case SDLK_7: emulator.keypad.keydown_code = 0x7; break;
+    case SDLK_8: emulator.keypad.keydown_code = 0x8; break;
+    case SDLK_9: emulator.keypad.keydown_code = 0x9; break;
+    case SDLK_a: emulator.keypad.keydown_code = 0xA; break;
+    case SDLK_b: emulator.keypad.keydown_code = 0xB; break;
+    case SDLK_c: emulator.keypad.keydown_code = 0xC; break;
+    case SDLK_d: emulator.keypad.keydown_code = 0xD; break;
+    case SDLK_e: emulator.keypad.keydown_code = 0xE; break;
+    case SDLK_f: emulator.keypad.keydown_code = 0xF; break;
     default: break;
   }
 }
@@ -91,6 +97,15 @@ Uint32 Window::ontick(Uint32 interval, void* userdata) {
   //
   // This design should work even if this is executed on the UI thread, but this is not the case for SDL.
   //
+  if (Keypad::keydown_code != -1) {
+    try {
+      Thread thread{arabica_thread(Keypad::keydown_event, (void*)&emulator.cpu.irq)};
+      thread.start();
+    } catch (const std::exception& e) {
+      fmt::print(stderr, "Exception: {}\n", e.what());
+    }
+  }
+  emulator.run();
   return interval;
 }
 
