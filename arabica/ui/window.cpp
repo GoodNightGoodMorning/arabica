@@ -99,7 +99,9 @@ Uint32 Window::ontick(Uint32 interval, void* userdata) {
   //
   if (Keypad::keydown_code != -1) {
     try {
-      auto keydown_task = std::async(std::launch::async, Keypad::keydown_event, &emulator.cpu.irq);
+      auto keydown_task = std::async(std::launch::async, [this]() {
+        emulator.cpu.irq.store(true, std::memory_order_release);
+      });
       keydown_task.wait();
     } catch (const std::exception& e) {
       fmt::print(stderr, "Exception: {}\n", e.what());
