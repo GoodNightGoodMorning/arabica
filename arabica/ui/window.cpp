@@ -91,20 +91,8 @@ void Window::on_render() {
 }
 
 Uint32 Window::ontick(Uint32 interval, void* userdata) {
-  //
-  // TODO: Implementation
-  //
-  // Note, this happens on a separate thread
-  //
-  // 1. Check if there were any keystroke (which could happen on the UI thread at the same time, synchronization
-  //    required), if so, tell the CPU that's the case
-  // 2. Execute a batch of CPU instructions (Potentially just one)
-  // 3. Check if there are update to display, if so, tell SDL to redraw (how - remember this is a separate thread)
-  // 4. Handles any other CPU/Window interactions.
-  //
-  // This design should work even if this is executed on the UI thread, but this is not the case for SDL.
-  //
   emulator.run();
+  // TODO: Check if there are update to display, if so, tell SDL to redraw (how - remember this is a separate thread)
   return interval;
 }
 
