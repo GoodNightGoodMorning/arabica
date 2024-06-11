@@ -1,6 +1,6 @@
 #include <arabica/ui/window.hpp>
 #include <arabica/driver/keypad.hpp>
-#include <arabica/thread/thread.hpp>
+#include <future>
 #include <fmt/core.h>
 
 namespace arabica {
@@ -99,8 +99,8 @@ Uint32 Window::ontick(Uint32 interval, void* userdata) {
   //
   if (Keypad::keydown_code != -1) {
     try {
-      Thread thread{arabica_thread(Keypad::keydown_event, (void*)&emulator.cpu.irq)};
-      thread.start();
+      auto keydown_task = std::async(std::launch::async, Keypad::keydown_event, &emulator.cpu.irq);
+      keydown_task.wait();
     } catch (const std::exception& e) {
       fmt::print(stderr, "Exception: {}\n", e.what());
     }

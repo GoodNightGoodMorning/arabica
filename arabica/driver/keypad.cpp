@@ -8,7 +8,7 @@ int Keypad::keydown_event(void* data) {
   if (data == nullptr)
     return -1;
 
-  bool* irq = reinterpret_cast<bool*>(data);
+  auto* irq = reinterpret_cast<bool*>(data);
   *irq      = true;
   return 0;
 }
