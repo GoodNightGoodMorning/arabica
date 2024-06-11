@@ -45,13 +45,13 @@ void Window::execute() {
   while (_running) {
     while (SDL_PollEvent(&_event)) {
       switch (_event.type) {
-        case SDL_QUIT: {
-          SDL_RemoveTimer(_timer_id);
-          _running = false;
-        } break;
+        case SDL_QUIT: _running = false; break;
         case SDL_WINDOWEVENT: {
           if (_event.window.event == SDL_WINDOWEVENT_CLOSE) {
-            SDL_RemoveTimer(_timer_id);
+            if (SDL_FALSE == SDL_RemoveTimer(_timer_id)) {
+              fmt::print("Failed to remove timer! SDL_Error: {}\n", SDL_GetError());
+              std::exit(1);
+            }
           }
         } break;
         case SDL_KEYDOWN: on_keyboard(_event.key.keysym.sym); break;
