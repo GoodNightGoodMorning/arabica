@@ -14,9 +14,7 @@ public:
   Keypad(Keypad&&)            = default;
   Keypad& operator=(Keypad&&) = default;
 
-  static int keydown_event(void* data);
-
-  static volatile int keydown_code;
+  static int keydown_code;
 };
 
 } // namespace arabica
