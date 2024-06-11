@@ -1,4 +1,3 @@
-#include "arabica/cpu/op_code.hpp"
 #include <arabica/cpu/cpu.hpp>
 #include <cstdint>
 #include <cstdlib>

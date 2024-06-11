@@ -1,6 +1,5 @@
 #include <arabica/ui/window.hpp>
 #include <arabica/driver/keypad.hpp>
-#include <future>
 #include <fmt/core.h>
 
 namespace arabica {

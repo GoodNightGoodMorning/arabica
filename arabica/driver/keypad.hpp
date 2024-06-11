@@ -3,8 +3,6 @@
 #include <arabica/type/noncopyable.hpp>
 #include <SDL2/SDL.h>
 #include <fmt/core.h>
-#include <string_view>
-#include <atomic>
 
 namespace arabica {
 
