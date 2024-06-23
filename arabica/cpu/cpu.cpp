@@ -28,6 +28,11 @@ void CPU::run(const Memory& memory) {
 }
 
 void CPU::run(const Memory& memory, const Keypad& keypad) {
+  Display display;
+  run(memory, keypad, display);
+}
+
+void CPU::run(const Memory& memory, const Keypad& keypad, Display& display) {
   instruction     = memory[pc] << 8 | memory[pc + 1];
   uint16_t prefix = instruction & 0xF000;
   opcode          = static_cast<OP_CODE>(prefix);
@@ -259,6 +264,13 @@ void CPU::run(const Memory& memory, const Keypad& keypad) {
         fmt::print("[cpu log] reg{} is {}\n", x, registers[x]);
         advance_pc(pc);
       }
+    } break;
+    case OP_CODE::DRW_Vx_Vy_nibble: {
+      uint8_t vx     = (instruction & 0x0F00) >> 8;
+      uint8_t vy     = (instruction & 0x00F0) >> 4;
+      uint8_t nibble = instruction & 0x000F;
+      display.flag   = true;
+      fmt::print("[cpu log] display flag = {}.\n", display.flag);
     } break;
     default: {
       // fmt::print("Unknown opcode: 0x{:X}\n", static_cast<uint16_t>(opcode));

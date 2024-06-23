@@ -3,6 +3,7 @@
 #include <arabica/cpu/op_code.hpp>
 #include <arabica/memory/memory.hpp>
 #include <arabica/driver/keypad.hpp>
+#include <arabica/driver/display.hpp>
 #include <cstdint>
 #include <stack>
 
@@ -14,8 +15,10 @@ public:
   constexpr static uint16_t PC_START        = 0x0200;
   constexpr static uint8_t  DEFAULT_RATE_HZ = 60;
 
-  void run(const Memory& memory); // workaround, code refactoring later
+  // workaround, code refactoring later
+  void run(const Memory& memory);
   void run(const Memory& memory, const Keypad& keypad);
+  void run(const Memory& memory, const Keypad& keypad, Display& display);
 
   void reset();
 
