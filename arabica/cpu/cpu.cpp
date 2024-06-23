@@ -32,6 +32,8 @@ void CPU::run(const Memory& memory, const Keypad& keypad) {
   uint16_t prefix = instruction & 0xF000;
   opcode          = static_cast<OP_CODE>(prefix);
 
+  // fmt::print("[cpu log] instruction is {0:x}\n", instruction);
+
   switch (prefix) {
     case 0x0: {
       switch (instruction & 0x00FF) {
