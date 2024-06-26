@@ -6,6 +6,7 @@
 #include <arabica/driver/display.hpp>
 #include <cstdint>
 #include <stack>
+#include <string>
 
 namespace arabica {
 
