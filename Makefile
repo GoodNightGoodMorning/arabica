@@ -21,7 +21,7 @@ build: clean
 	cd $(dir_build); cmake -DCMAKE_C_COMPILER="$(cc)" -DCMAKE_CXX_COMPILER="$(cxx)" -DBUILD_APP=ON -GNinja ..; ninja; 
 
 execute:
-	./$(dir_build)/$(app).out $(dir_rom)/br8kout.ch8
+	./$(dir_build)/$(app).out $(dir_rom)/cavern.ch8
 
 clean:
 	rm -rf $(dir_build)
