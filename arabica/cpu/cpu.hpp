@@ -17,9 +17,9 @@ public:
   constexpr static uint8_t  DEFAULT_RATE_HZ = 60;
 
   // workaround, code refactoring later
-  void run(const Memory& memory);
-  void run(const Memory& memory, const Keypad& keypad);
-  void run(const Memory& memory, const Keypad& keypad, Display& display);
+  void run(Memory& memory);
+  void run(Memory& memory, Keypad& keypad);
+  void run(Memory& memory, Keypad& keypad, Display& display);
 
   void reset();
 

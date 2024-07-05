@@ -39,7 +39,7 @@ Window::Window(const std::string& title, const int width, const int height, cons
     std::exit(1);
   }
 
-  emulator.display._pixels = new uint32_t[_width * _height];
+  emulator.display.init(_width, _height);
 
   _texture = SDL_CreateTexture(_renderer,                //
                                SDL_PIXELFORMAT_ARGB8888, //
@@ -116,9 +116,9 @@ void Window::on_render() {
     emulator.display.flag = false;
   }
   for (int i = 0; i < _width * _height; ++i) {
-    emulator.display._pixels[i] = color;
+    emulator.display.pixels[i] = color;
   }
-  SDL_UpdateTexture(_texture, NULL, emulator.display._pixels, _width * sizeof(uint32_t));
+  SDL_UpdateTexture(_texture, NULL, emulator.display.pixels, _width * sizeof(uint32_t));
   SDL_RenderCopy(_renderer, _texture, NULL, NULL);
   SDL_RenderPresent(_renderer);
 }
