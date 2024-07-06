@@ -294,7 +294,8 @@ void CPU::run(Memory& memory, Keypad& keypad, Display& display) {
             if (display.get_pixel(screen_x, screen_y)) {
               registers[0xF] = 1;
             }
-            display.set_pixel(screen_x, screen_y, !display.get_pixel(screen_x, screen_y));
+            // display.set_pixel(screen_x, screen_y, !display.get_pixel(screen_x, screen_y));
+            display.set_pixel(screen_x, screen_y, 255);
           }
         }
       }
