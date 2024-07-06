@@ -18,6 +18,7 @@ void Emulator::run() {
 
   fmt::print("The current cycle is {}\n", cycle);
   cycle++;
+  fmt::print("pc = {:x}\n", cpu.pc);
   cpu.run(memory, keypad, display);
   // cpu.run(memory, keypad, display);
 

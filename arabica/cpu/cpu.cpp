@@ -38,7 +38,7 @@ void CPU::run(Memory& memory, Keypad& keypad, Display& display) {
   uint16_t prefix = instruction & 0xF000;
   opcode          = static_cast<OP_CODE>(prefix);
 
-  // fmt::print("[cpu log] instruction is {0:x}\n", instruction);
+  fmt::print("[cpu log] instruction is {0:x}\n", instruction);
 
   switch (prefix) {
     case 0x0: {
@@ -300,9 +300,10 @@ void CPU::run(Memory& memory, Keypad& keypad, Display& display) {
       }
       display.flag = true;
       fmt::print("[cpu log] display flag = {}.\n", display.flag);
+      advance_pc(pc);
     } break;
     default: {
-      // fmt::print("Unknown opcode: 0x{:X}\n", static_cast<uint16_t>(opcode));
+      fmt::print("Unknown opcode: 0x{:X}\n", static_cast<uint16_t>(opcode));
     } break;
   }
 }

@@ -107,18 +107,21 @@ void Window::on_keyboard(const SDL_Keycode keycode) {
 
 void Window::on_render() {
   SDL_RenderClear(_renderer);
-  SDL_SetRenderDrawColor(_renderer, 0x33, 0x99, 0x66, 0xFF);
-
-  static auto color = 0x339966FF;
+  // SDL_SetRenderDrawColor(_renderer, 0x33, 0x99, 0x66, 0xFF);
+  //
+  // static auto color = 0x339966FF;
+  // if (emulator.display.flag) {
+  //   fmt::print("[emulator log] render n-byte sprite\n");
+  //   color                 = (color + 120) % 256;
+  //   emulator.display.flag = false;
+  // }
+  // for (int i = 0; i < _width * _height; ++i) {
+  //   emulator.display.pixels[i] = color;
+  // }
   if (emulator.display.flag) {
-    fmt::print("[emulator log] render n-byte sprite\n");
-    color                 = (color + 120) % 256;
+    SDL_UpdateTexture(_texture, NULL, emulator.display.pixels, _width * sizeof(uint32_t));
     emulator.display.flag = false;
   }
-  for (int i = 0; i < _width * _height; ++i) {
-    emulator.display.pixels[i] = color;
-  }
-  SDL_UpdateTexture(_texture, NULL, emulator.display.pixels, _width * sizeof(uint32_t));
   SDL_RenderCopy(_renderer, _texture, NULL, NULL);
   SDL_RenderPresent(_renderer);
 }
