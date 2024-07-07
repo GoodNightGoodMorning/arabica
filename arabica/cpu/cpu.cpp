@@ -324,6 +324,8 @@ void CPU::run(Memory& memory, Keypad& keypad, Display& display, Delay& delay) {
           uint8_t pixel_value = (sprite_row >> (7 - x)) & 0x01;
           int     screen_x    = (registers[vx] + x) % display.width;
           int     screen_y    = (registers[vy] + y) % display.height;
+
+          registers[0xF] = 0;
           if (pixel_value == 1) {
             if (display.get_pixel(screen_x * display.scale, (screen_y * display.scale) + vertical_offset)) {
               registers[0xF] = 1;
