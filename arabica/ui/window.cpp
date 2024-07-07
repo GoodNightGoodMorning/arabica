@@ -39,13 +39,14 @@ Window::Window(const std::string& title, const int width, const int height, cons
     std::exit(1);
   }
 
-  emulator.display.init(_width, _height);
+  int scale = 10;
+  emulator.display.init(_width / scale, _height / scale, scale);
 
-  _texture = SDL_CreateTexture(_renderer,                //
-                               SDL_PIXELFORMAT_ARGB8888, //
-                               SDL_TEXTUREACCESS_STATIC, //
-                               emulator.display.width,   //
-                               emulator.display.height); //
+  _texture = SDL_CreateTexture(_renderer,
+                               SDL_PIXELFORMAT_ARGB8888,
+                               SDL_TEXTUREACCESS_STATIC,
+                               scale * emulator.display.width,
+                               scale * emulator.display.height);
 
   const int delay = 2; // f = 1 / T = 1 / 0.002 (ms) = 500 Hz
   _timer_id       = SDL_AddTimer(delay, _ontick, this);
@@ -105,10 +106,13 @@ void Window::on_keyboard(const SDL_Keycode keycode) {
 void Window::on_render() {
   SDL_RenderClear(_renderer);
   if (emulator.display.flag) {
-    SDL_UpdateTexture(_texture, NULL, emulator.display.pixels, emulator.display.width * sizeof(uint32_t));
+    SDL_UpdateTexture(_texture,
+                      nullptr,
+                      emulator.display.pixels,
+                      emulator.display.width * emulator.display.scale * sizeof(uint32_t));
     emulator.display.flag = false;
   }
-  SDL_RenderCopy(_renderer, _texture, NULL, NULL);
+  SDL_RenderCopy(_renderer, _texture, nullptr, nullptr);
   SDL_RenderPresent(_renderer);
 }
 

@@ -311,6 +311,8 @@ void CPU::run(Memory& memory, Keypad& keypad, Display& display) {
       for (int i = 0; i < nibble; ++i) {
         sprite_data.push_back(memory.read(reg_I + i));
       }
+
+      int vertical_offset = display.scale * (display.height - nibble) / 5;
       for (int y = 0; y < nibble; ++y) {
         uint8_t sprite_row = sprite_data[y];
         for (int x = 0; x < 8; ++x) {
@@ -318,13 +320,16 @@ void CPU::run(Memory& memory, Keypad& keypad, Display& display) {
           int     screen_x    = (registers[vx] + x) % display.width;
           int     screen_y    = (registers[vy] + y) % display.height;
           if (pixel_value == 1) {
-            if (display.get_pixel(screen_x, screen_y)) {
+            if (display.get_pixel(screen_x * display.scale, (screen_y * display.scale) + vertical_offset)) {
               registers[0xF] = 1;
             }
-            if (const auto& val = display.get_pixel(screen_x, screen_y); val != 0) {
-              display.set_pixel(screen_x, screen_y, val);
-            } else {
-              display.set_pixel(screen_x, screen_y, 255);
+            for (int dy = 0; dy < display.scale; ++dy) {
+              for (int dx = 0; dx < display.scale; ++dx) {
+                const auto cx    = screen_x * display.scale + dx;
+                const auto cy    = screen_y * display.scale + dy + vertical_offset;
+                const auto pixel = display.get_pixel(cx, cy);
+                display.set_pixel(cx, cy, pixel != 0 ? pixel : 255);
+              }
             }
           }
         }
