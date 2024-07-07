@@ -89,6 +89,7 @@ void CPU::run(Memory& memory, Keypad& keypad, Display& display) {
   switch (opcode) {
     case OP_CODE::CLS: {
       display.clear();
+      display.flag = true;
       advance_pc(pc);
     } break;
     case OP_CODE::JP_addr: {
