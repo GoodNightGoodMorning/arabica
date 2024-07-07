@@ -12,7 +12,7 @@ int cycle = 0;
 
 void Emulator::run() {
   fmt::print("[emulator log] PC = {:x}\n", cpu.pc);
-  cpu.run(memory, keypad, display);
+  cpu.run(memory, keypad, display, delay);
 
   fmt::print("[emulator log] The current cycle is {}\n", cycle);
   cycle++;

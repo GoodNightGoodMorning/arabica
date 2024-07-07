@@ -34,6 +34,11 @@ void CPU::run(Memory& memory, Keypad& keypad) {
 }
 
 void CPU::run(Memory& memory, Keypad& keypad, Display& display) {
+  Delay delay;
+  run(memory, keypad, display, delay);
+}
+
+void CPU::run(Memory& memory, Keypad& keypad, Display& display, Delay& delay) {
   instruction     = memory[pc] << 8 | memory[pc + 1];
   uint16_t prefix = instruction & 0xF000;
   opcode          = static_cast<OP_CODE>(prefix);
@@ -257,12 +262,12 @@ void CPU::run(Memory& memory, Keypad& keypad, Display& display) {
     } break;
     case OP_CODE::LD_Vx_DT: {
       uint8_t x    = (instruction & 0x0F00) >> 8;
-      registers[x] = reg_delay;
+      registers[x] = delay.get();
       advance_pc(pc);
     } break;
     case OP_CODE::LD_DT_Vx: {
       uint8_t x = (instruction & 0x0F00) >> 8;
-      reg_delay = registers[x];
+      delay.set(registers[x]);
       advance_pc(pc);
     } break;
     case OP_CODE::LD_ST_Vx: {

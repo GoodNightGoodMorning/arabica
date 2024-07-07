@@ -4,6 +4,7 @@
 #include <arabica/memory/memory.hpp>
 #include <arabica/driver/keypad.hpp>
 #include <arabica/driver/display.hpp>
+#include <arabica/driver/delay.hpp>
 #include <cstdint>
 #include <stack>
 #include <string>
@@ -20,6 +21,7 @@ public:
   void run(Memory& memory);
   void run(Memory& memory, Keypad& keypad);
   void run(Memory& memory, Keypad& keypad, Display& display);
+  void run(Memory& memory, Keypad& keypad, Display& display, Delay& delay);
 
   void reset();
 

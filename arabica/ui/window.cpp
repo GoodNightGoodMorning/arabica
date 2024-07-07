@@ -118,6 +118,7 @@ void Window::on_render() {
 
 Uint32 Window::ontick(Uint32 interval, void* userdata) {
   emulator.run();
+  emulator.delay.tick();
   return interval;
 }
 
