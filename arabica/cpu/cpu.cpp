@@ -87,6 +87,10 @@ void CPU::run(Memory& memory, Keypad& keypad, Display& display) {
   }
 
   switch (opcode) {
+    case OP_CODE::SYS_addr: {
+      uint16_t target = instruction & 0x0FFF;
+      pc              = target;
+    } break;
     case OP_CODE::CLS: {
       display.clear();
       display.flag = true;
@@ -324,6 +328,38 @@ void CPU::run(Memory& memory, Keypad& keypad, Display& display) {
       }
       display.flag = true;
       fmt::print("[cpu log] display flag = {}.\n", display.flag);
+      advance_pc(pc);
+    } break;
+    case OP_CODE::LD_F_Vx: {
+      uint8_t vx = (instruction & 0x0F00) >> 8;
+      reg_I      = registers[vx] * 0x5;
+      advance_pc(pc);
+    } break;
+    case OP_CODE::LD_B_Vx: {
+      const uint8_t vx = (instruction & 0x0F00) >> 8;
+
+      const auto& rx    = registers[vx];
+      memory[reg_I + 0] = (rx % 1000) / 100;
+      memory[reg_I + 1] = (rx % 100) / 10;
+      memory[reg_I + 2] = (rx % 10);
+      advance_pc(pc);
+    } break;
+    case OP_CODE::LD_I_Vx: {
+      const uint8_t vx = (instruction & 0x0F00) >> 8;
+
+      for (int i = 0; i <= vx; i++) {
+        memory[reg_I + i] = registers[i];
+      }
+      reg_I += vx + 1;
+      advance_pc(pc);
+    } break;
+    case OP_CODE::LD_Vx_I: {
+      const uint8_t vx = (instruction & 0x0F00) >> 8;
+
+      for (int i = 0; i <= vx; i++) {
+        registers[i] = memory[reg_I + i];
+      }
+      reg_I += vx + 1;
       advance_pc(pc);
     } break;
     default: {
