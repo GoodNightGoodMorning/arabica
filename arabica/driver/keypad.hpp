@@ -10,4 +10,6 @@ public:
   static int keydown_code;
 };
 
+inline int Keypad::keydown_code{-1};
+
 } // namespace arabica
