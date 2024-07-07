@@ -98,7 +98,8 @@ void CPU::run(Memory& memory, Keypad& keypad, Display& display, Delay& delay) {
     } break;
     case OP_CODE::CLS: {
       display.clear();
-      display.flag = true;
+      display.flag   = true;
+      registers[0xF] = 0;
       advance_pc(pc);
     } break;
     case OP_CODE::JP_addr: {
