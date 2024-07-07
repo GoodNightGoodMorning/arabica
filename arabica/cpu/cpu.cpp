@@ -88,7 +88,7 @@ void CPU::run(Memory& memory, Keypad& keypad, Display& display) {
 
   switch (opcode) {
     case OP_CODE::CLS: {
-      // ToDo: actually clear the screen!
+      display.clear();
       advance_pc(pc);
     } break;
     case OP_CODE::JP_addr: {
@@ -104,82 +104,79 @@ void CPU::run(Memory& memory, Keypad& keypad, Display& display) {
       if (!stack.empty()) {
         pc = stack.top();
         stack.pop();
-      } else {
-        // ToDo: raise interrupt? how to test the failed case?
-      };
+      }
     } break;
     case OP_CODE::SE_Vx_byte: {
       uint8_t x      = (instruction & 0x0F00) >> 8;
       uint8_t byte_v = instruction & 0x00FF;
-      if (registers[x] == byte_v)
+
+      if (registers[x] == byte_v) {
         advance_pc(pc);
-
+      }
       advance_pc(pc);
-
     } break;
     case OP_CODE::SNE_Vx_byte: {
       uint8_t x      = (instruction & 0x0F00) >> 8;
       uint8_t byte_v = instruction & 0x00FF;
 
-      if (registers[x] != byte_v)
+      if (registers[x] != byte_v) {
         advance_pc(pc);
-
+      }
       advance_pc(pc);
-
     } break;
     case OP_CODE::SE_Vx_Vy: {
       uint8_t x = (instruction & 0x0F00) >> 8;
       uint8_t y = (instruction & 0x00F0) >> 4;
 
-      if (registers[x] == registers[y])
+      if (registers[x] == registers[y]) {
         advance_pc(pc);
-
+      }
       advance_pc(pc);
     } break;
     case OP_CODE::LD_Vx_byte: {
       uint8_t byte_v                         = instruction & 0x00FF;
       registers[(instruction & 0x0F00) >> 8] = byte_v;
-
       advance_pc(pc);
     } break;
     case OP_CODE::ADD_Vx_byte: {
       uint8_t byte_v = instruction & 0x00FF;
       uint8_t x      = (instruction & 0x0F00) >> 8;
-      registers[x]   = registers[x] + byte_v; // it will be wrapped if overflow occurs
 
+      registers[x] = registers[x] + byte_v; // it will be wrapped if overflow occurs
       advance_pc(pc);
     } break;
     case OP_CODE::LD_Vx_Vy: {
-      uint8_t x    = (instruction & 0x0F00) >> 8;
-      uint8_t y    = (instruction & 0x00F0) >> 4;
-      registers[x] = registers[y];
+      uint8_t x = (instruction & 0x0F00) >> 8;
+      uint8_t y = (instruction & 0x00F0) >> 4;
 
+      registers[x] = registers[y];
       advance_pc(pc);
     } break;
     case OP_CODE::OR_Vx_Vy: {
       uint8_t x = (instruction & 0x0F00) >> 8;
       uint8_t y = (instruction & 0x00F0) >> 4;
-      registers[x] |= registers[y];
 
+      registers[x] |= registers[y];
       advance_pc(pc);
     } break;
     case OP_CODE::AND_Vx_Vy: {
       uint8_t x = (instruction & 0x0F00) >> 8;
       uint8_t y = (instruction & 0x00F0) >> 4;
-      registers[x] &= registers[y];
 
+      registers[x] &= registers[y];
       advance_pc(pc);
     } break;
     case OP_CODE::XOR_Vx_Vy: {
       uint8_t x = (instruction & 0x0F00) >> 8;
       uint8_t y = (instruction & 0x00F0) >> 4;
-      registers[x] ^= registers[y];
 
+      registers[x] ^= registers[y];
       advance_pc(pc);
     } break;
     case OP_CODE::ADD_Vx_Vy: {
-      uint8_t x      = (instruction & 0x0F00) >> 8;
-      uint8_t y      = (instruction & 0x00F0) >> 4;
+      uint8_t x = (instruction & 0x0F00) >> 8;
+      uint8_t y = (instruction & 0x00F0) >> 4;
+
       registers[x]   = registers[x] + registers[y];
       registers[0xF] = registers[y] > 255 - registers[x];
 
@@ -198,8 +195,8 @@ void CPU::run(Memory& memory, Keypad& keypad, Display& display) {
       // Remark: historically, the semantics is "right shift V[x] by V[y] amount
       // and store the result to V[x]" in the original chip8 implementation, however, most of the game
       // after 90s follows the buggy implementation of HP which ignoring V[y], so we just follow the same for now.
+      uint8_t x = (instruction & 0x0F00) >> 8;
 
-      uint8_t x      = (instruction & 0x0F00) >> 8;
       registers[0xF] = registers[x] & 1;
       registers[x]   = registers[x] >> 1;
 
@@ -218,7 +215,8 @@ void CPU::run(Memory& memory, Keypad& keypad, Display& display) {
       // Remark: historically, the semantics is "left shift V[x] by V[y] amount
       // and store the result to V[x]" in the original chip8 implementation, however, most of the game
       // after 90s follows the buggy implementation of HP which ignoring V[y], so we just follow the same for now.
-      uint8_t x      = (instruction & 0x0F00) >> 8;
+      uint8_t x = (instruction & 0x0F00) >> 8;
+
       registers[0xF] = (registers[x] >> 7) & 1;
       registers[x]   = registers[x] << 1;
 
@@ -227,9 +225,10 @@ void CPU::run(Memory& memory, Keypad& keypad, Display& display) {
     case OP_CODE::SNE_Vx_Vy: {
       uint8_t x = (instruction & 0x0F00) >> 8;
       uint8_t y = (instruction & 0x00F0) >> 4;
-      if (registers[x] != registers[y])
-        advance_pc(pc);
 
+      if (registers[x] != registers[y]) {
+        advance_pc(pc);
+      }
       advance_pc(pc);
     } break;
     case OP_CODE::LD_I_addr: {
@@ -273,6 +272,7 @@ void CPU::run(Memory& memory, Keypad& keypad, Display& display) {
     } break;
     case OP_CODE::LD_Vx_K: {
       uint8_t x = (instruction & 0x0F00) >> 8;
+
       if (keypad.keydown_code != -1) {
         fmt::print("[cpu log] pressed key is {}\n", keypad.keydown_code);
         registers[x]        = keypad.keydown_code;
@@ -283,6 +283,7 @@ void CPU::run(Memory& memory, Keypad& keypad, Display& display) {
     } break;
     case OP_CODE::SKP_Vx: {
       uint8_t x = (instruction & 0x0F00) >> 8;
+
       if (keypad.keydown_code == registers[x]) {
         advance_pc(pc);
       }
@@ -290,6 +291,7 @@ void CPU::run(Memory& memory, Keypad& keypad, Display& display) {
     } break;
     case OP_CODE::SKNP_Vx: {
       uint8_t x = (instruction & 0x0F00) >> 8;
+
       if (keypad.keydown_code != registers[x]) {
         advance_pc(pc);
       }
@@ -304,7 +306,6 @@ void CPU::run(Memory& memory, Keypad& keypad, Display& display) {
       for (int i = 0; i < nibble; ++i) {
         sprite_data.push_back(memory.read(reg_I + i));
       }
-
       for (int y = 0; y < nibble; ++y) {
         uint8_t sprite_row = sprite_data[y];
         for (int x = 0; x < 8; ++x) {
