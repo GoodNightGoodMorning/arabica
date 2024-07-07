@@ -363,7 +363,7 @@ void CPU::run(Memory& memory, Keypad& keypad, Display& display) {
       advance_pc(pc);
     } break;
     default: {
-      fmt::print("Unknown opcode: 0x{:X}\n", static_cast<uint16_t>(opcode));
+      fmt::print("[cpu log] Unknown opcode: 0x{:X}\n", static_cast<uint16_t>(opcode));
     } break;
   }
 }

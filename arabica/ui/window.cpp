@@ -47,9 +47,8 @@ Window::Window(const std::string& title, const int width, const int height, cons
                                _width,                   //
                                _height);                 //
 
-  const int delay = 2;
-  // const int delay = 1000;
-  _timer_id = SDL_AddTimer(delay, _ontick, this);
+  const int delay = 2; // f = 1 / T = 1 / 0.002 (ms) = 500 Hz
+  _timer_id       = SDL_AddTimer(delay, _ontick, this);
 }
 
 Window::~Window() {
@@ -105,17 +104,6 @@ void Window::on_keyboard(const SDL_Keycode keycode) {
 
 void Window::on_render() {
   SDL_RenderClear(_renderer);
-  // SDL_SetRenderDrawColor(_renderer, 0x33, 0x99, 0x66, 0xFF);
-  //
-  // static auto color = 0x339966FF;
-  // if (emulator.display.flag) {
-  //   fmt::print("[emulator log] render n-byte sprite\n");
-  //   color                 = (color + 120) % 256;
-  //   emulator.display.flag = false;
-  // }
-  // for (int i = 0; i < _width * _height; ++i) {
-  //   emulator.display.pixels[i] = color;
-  // }
   if (emulator.display.flag) {
     SDL_UpdateTexture(_texture, NULL, emulator.display.pixels, _width * sizeof(uint32_t));
     emulator.display.flag = false;
@@ -126,7 +114,6 @@ void Window::on_render() {
 
 Uint32 Window::ontick(Uint32 interval, void* userdata) {
   emulator.run();
-  // TODO: Check if there are update to display, if so, tell SDL to redraw (how - remember this is a separate thread)
   return interval;
 }
 
