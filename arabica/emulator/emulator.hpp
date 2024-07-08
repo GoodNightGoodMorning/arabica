@@ -2,7 +2,6 @@
 
 #include <arabica/cpu/cpu.hpp>
 #include <arabica/memory/memory.hpp>
-#include <arabica/rom/rom.hpp>
 #include <arabica/driver/keypad.hpp>
 #include <arabica/driver/display.hpp>
 #include <arabica/driver/sound.hpp>
@@ -22,7 +21,6 @@ public:
 
   CPU     cpu;
   Memory  memory;
-  Rom     rom;
   Keypad  keypad;
   Display display;
   Sound   sound;
