@@ -2,12 +2,8 @@
 
 #include <arabica/cpu/op_code.hpp>
 #include <arabica/memory/memory.hpp>
-#include <arabica/driver/keypad.hpp>
-#include <arabica/driver/display.hpp>
-#include <arabica/driver/delay.hpp>
 #include <cstdint>
 #include <stack>
-#include <string>
 
 namespace arabica {
 
@@ -17,13 +13,13 @@ public:
   constexpr static uint16_t PC_START        = 0x0200;
   constexpr static uint8_t  DEFAULT_RATE_HZ = 60;
 
-  // workaround, code refactoring later
-  void run(Memory& memory);
-  void run(Memory& memory, Keypad& keypad);
-  void run(Memory& memory, Keypad& keypad, Display& display);
-  void run(Memory& memory, Keypad& keypad, Display& display, Delay& delay);
+  void reset() {
+    pc = PC_START;
+  }
 
-  void reset();
+  void advance_pc(uint16_t offset = 2) {
+    pc += offset;
+  }
 
   uint8_t              registers[REGISTER_COUNT] = {0};
   uint16_t             reg_I{0x0000};
