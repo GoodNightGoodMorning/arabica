@@ -27,6 +27,13 @@ void Emulator::execute() {
   cycle++;
 
   delay.tick();
+
+  if (cpu.reg_sound > 0) {
+    cpu.reg_sound--;
+    if (cpu.reg_sound == 0) {
+      sound.stop_beep();
+    }
+  }
 }
 
 void Emulator::single_step() {
@@ -265,6 +272,10 @@ void Emulator::single_step() {
     case OP_CODE::LD_ST_Vx: {
       uint8_t x     = (cpu.instruction & 0x0F00) >> 8;
       cpu.reg_sound = cpu.registers[x];
+      sound.rate    = cpu.reg_sound;
+      if (sound.rate > 0) {
+        sound.start_beep();
+      }
       cpu.advance_pc();
     } break;
     case OP_CODE::ADD_I_Vx: {
