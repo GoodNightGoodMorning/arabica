@@ -4,8 +4,8 @@
 
 namespace arabica {
 
-Uint32 _ontick(Uint32 interval, void* userdata) {
-  return (static_cast<Window*>(userdata))->ontick(interval, userdata);
+Uint32 _on_tick(Uint32 interval, void* userdata) {
+  return (static_cast<Window*>(userdata))->on_tick(interval, userdata);
 }
 
 Window::Window(const std::string& title, const int width, const int height, const std::string& rom) {
@@ -49,7 +49,7 @@ Window::Window(const std::string& title, const int width, const int height, cons
                                scale * emulator.display.height);
 
   const int delay = 2; // f = 1 / T = 1 / 0.002 (ms) = 500 Hz
-  _timer_id       = SDL_AddTimer(delay, _ontick, this);
+  _timer_id       = SDL_AddTimer(delay, _on_tick, this);
 }
 
 Window::~Window() {
@@ -116,7 +116,7 @@ void Window::on_render() {
   SDL_RenderPresent(_renderer);
 }
 
-Uint32 Window::ontick(Uint32 interval, void* userdata) {
+Uint32 Window::on_tick(Uint32 interval, void* userdata) {
   emulator.execute();
   return interval;
 }
