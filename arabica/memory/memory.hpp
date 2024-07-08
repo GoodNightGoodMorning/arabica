@@ -48,6 +48,7 @@ public:
 
   void write(const address_t address, const value_t value);
 
+  void init_fonts();
   bool load(const std::string& rom);
 
   value_t&       operator[](const address_t address);
