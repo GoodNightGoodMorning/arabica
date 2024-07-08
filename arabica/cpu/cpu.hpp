@@ -13,12 +13,20 @@ public:
   constexpr static uint16_t PC_START        = 0x0200;
   constexpr static uint8_t  DEFAULT_RATE_HZ = 60;
 
-  void reset() {
+  CPU(Memory& mem)
+    : memory(mem) {
+  }
+
+  void reset_pc() {
     pc = PC_START;
   }
 
   void advance_pc(uint16_t offset = 2) {
     pc += offset;
+  }
+
+  void setMemory(Memory& mem) {
+    memory = mem;
   }
 
   uint8_t              registers[REGISTER_COUNT] = {0};
@@ -29,6 +37,7 @@ public:
   std::stack<uint16_t> stack;
   uint16_t             instruction{0x0000};
   OP_CODE              opcode{OP_CODE::CLS};
+  Memory&              memory;
 };
 
 } // namespace arabica

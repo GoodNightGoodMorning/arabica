@@ -12,6 +12,10 @@ namespace arabica {
 
 class Emulator {
 public:
+  Emulator()
+    : cpu(memory) {
+  }
+
   bool load(const std::string& rom);
   void single_step();
   void execute();
