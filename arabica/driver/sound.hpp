@@ -51,7 +51,6 @@ public:
       SDL_Log("Failed to open audio: %s", SDL_GetError());
       SDL_Quit();
     }
-    SDL_PauseAudioDevice(_device, SDL_FALSE);
   }
 
   ~Sound() {
