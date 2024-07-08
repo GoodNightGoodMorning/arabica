@@ -2,6 +2,7 @@
 
 #include <arabica/cpu/op_code.hpp>
 #include <arabica/memory/memory.hpp>
+#include <SDL2/SDL.h>
 #include <cstdint>
 #include <stack>
 
@@ -29,6 +30,7 @@ public:
     memory = mem;
   }
 
+  Uint32               clock_speed{0};
   uint8_t              registers[REGISTER_COUNT] = {0};
   uint16_t             reg_I{0x0000};
   uint8_t              reg_delay{DEFAULT_RATE_HZ};
