@@ -522,7 +522,7 @@ void Emulator::single_step() {
                 const auto cx    = screen_x * display.scale + dx;
                 const auto cy    = screen_y * display.scale + dy + vertical_offset;
                 const auto pixel = display.get_pixel(cx, cy);
-                display.set_pixel(cx, cy, pixel != 0 ? pixel : 255);
+                display.set_pixel(cx, cy, pixel ^ 255);
               }
             }
           }
