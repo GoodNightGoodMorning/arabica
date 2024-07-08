@@ -13,6 +13,7 @@ class Emulator {
 public:
   Emulator()
     : cycle(0)
+    , is_enable_log(false)
     , cpu(memory) {
   }
 
@@ -20,6 +21,15 @@ public:
   void single_step();
   void execute();
 
+  template<typename... Args>
+  inline void log_info(const char* format, Args... args) {
+    if (is_enable_log) {
+      fmt::print("[emulator log] ");
+      fmt::print(format, args...);
+    }
+  }
+
+  bool    is_enable_log;
   int     cycle;
   CPU     cpu;
   Memory  memory;

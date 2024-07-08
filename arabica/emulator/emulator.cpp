@@ -20,10 +20,12 @@ bool Emulator::load(const std::string& rom) {
 }
 
 void Emulator::execute() {
-  fmt::print("[emulator log] PC = {:x}\n", cpu.pc);
+  is_enable_log = true;
+
+  log_info("PC = {:x}\n", cpu.pc);
   single_step();
 
-  fmt::print("[emulator log] The current cycle is {}\n", cycle);
+  log_info("The current cycle is {}\n", cycle);
   cycle++;
 
   delay.tick();
@@ -41,7 +43,7 @@ void Emulator::single_step() {
   uint16_t prefix = cpu.instruction & 0xF000;
   cpu.opcode      = static_cast<OP_CODE>(prefix);
 
-  fmt::print("[emulator log] cpu.instruction is {0:x}\n", cpu.instruction);
+  log_info("cpu.instruction is {0:x}\n", cpu.instruction);
 
   switch (prefix) {
     case 0x0: {
@@ -449,10 +451,10 @@ void Emulator::single_step() {
       const uint8_t vx = (cpu.instruction & 0x0F00) >> 8;
 
       if (keypad.keydown_code != -1) {
-        fmt::print("[emulator log] pressed key is {}\n", keypad.keydown_code);
+        log_info("pressed key is {}\n", keypad.keydown_code);
         cpu.registers[vx]   = keypad.keydown_code;
         keypad.keydown_code = -1;
-        fmt::print("[emulator log] reg{} is {}\n", vx, cpu.registers[vx]);
+        log_info("reg{} is {}\n", vx, cpu.registers[vx]);
         cpu.advance_pc();
       }
     } break;
@@ -529,7 +531,7 @@ void Emulator::single_step() {
         }
       }
       display.flag = true;
-      fmt::print("[emulator log] display flag = {}.\n", display.flag);
+      log_info("display flag = {}.\n", display.flag);
       cpu.advance_pc();
     } break;
     // Fx29 - LD F, Vx
