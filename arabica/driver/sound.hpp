@@ -46,11 +46,11 @@ public:
       };
     }
 
-    _device = SDL_OpenAudioDevice(nullptr, 0, &desired_spec, &_spec, 0);
-    if (_device == 0) {
-      SDL_Log("Failed to open audio: %s", SDL_GetError());
-      SDL_Quit();
-    }
+    // _device = SDL_OpenAudioDevice(nullptr, 0, &desired_spec, &_spec, 0);
+    // if (_device == 0) {
+    //   SDL_Log("Failed to open audio: %s", SDL_GetError());
+    //   SDL_Quit();
+    // }
   }
 
   ~Sound() {
