@@ -15,7 +15,7 @@ public:
     height = h;
     scale  = s;
     pixels = new uint32_t[(width * scale) * (height * scale)];
-    clear();
+    reset_pixel();
   }
 
   void set_pixel(int x, int y, uint32_t color) {
@@ -31,7 +31,7 @@ public:
     return 0;
   }
 
-  void clear() {
+  void reset_pixel() {
     for (int i = 0; i < width * scale * height * scale; ++i) {
       pixels[i] = 0;
     }

@@ -106,7 +106,7 @@ void Emulator::single_step() {
     //
     // Clear the display.
     case OP_CODE::CLS: {
-      display.clear();
+      display.reset_pixel();
       display.flag       = true;
       cpu.registers[0xF] = 0;
       cpu.advance_pc();
