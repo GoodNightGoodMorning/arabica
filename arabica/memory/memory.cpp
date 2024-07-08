@@ -65,6 +65,7 @@ bool Memory::load(const std::string& rom) {
 }
 
 void Memory::init_fonts() {
+  // spec: http://devernay.free.fr/hacks/chip8/C8TECH10.HTM#2.4
   constexpr std::array<value_t, 80> fonts = {
     0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
     0x20, 0x60, 0x20, 0x20, 0x70, // 1
