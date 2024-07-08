@@ -29,15 +29,15 @@ public:
     SDL_AudioSpec desired_spec;
     {
       SDL_zero(desired_spec);
-      desired_spec.freq     = 60;           // decrements at a rate of 60Hz
+      desired_spec.freq     = 44100;        // https://en.wikipedia.org/wiki/44,100_Hz
       desired_spec.format   = AUDIO_F32SYS; // 32-bit float format
       desired_spec.channels = 1;            // mono
-      desired_spec.samples  = 4096;         // Buffer size in samples per channel
+      desired_spec.samples  = 32;           // Buffer size in samples per channel
       desired_spec.callback = []([[maybe_unused]] void* userdata, Uint8* stream, int len) {
         auto* const fstream        = reinterpret_cast<float*>(stream);
         const float amplitude      = 0.5f;
-        const float sample_rate    = 1 / 60; // f = 1 / T = 1 / 60 (hz)
-        const float tone_frequency = 440.0f; // A4 note, https://en.wikipedia.org/wiki/A440_(pitch_standard)
+        const float sample_rate    = 1 / 44100; // f = 1 / T = 1 / 44100 (hz)
+        const float tone_frequency = 440.0f;    // A4 note, https://en.wikipedia.org/wiki/A440_(pitch_standard)
         for (int i = 0; i < len / sizeof(float); ++i) {
           const auto omega = 2.0f * M_PI * tone_frequency; // angular speed
           const auto scale = (i / sample_rate);
@@ -45,12 +45,13 @@ public:
         }
       };
     }
-    //
-    // _device = SDL_OpenAudioDevice(nullptr, 0, &desired_spec, &_spec, 0);
-    // if (_device == 0) {
-    //   SDL_Log("Failed to open audio: %s", SDL_GetError());
-    //   SDL_Quit();
-    // }
+
+    _device = SDL_OpenAudioDevice(nullptr, 0, &desired_spec, &_spec, 0);
+    if (_device == 0) {
+      SDL_Log("Failed to open audio: %s", SDL_GetError());
+      SDL_Quit();
+    }
+    SDL_PauseAudioDevice(_device, SDL_FALSE);
   }
 
   ~Sound() {
