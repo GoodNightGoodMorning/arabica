@@ -22,14 +22,6 @@ public:
   void single_step();
   void execute();
 
-  template<typename... Args>
-  inline void log_info(const char* format, Args... args) {
-    if (is_enable_log) {
-      fmt::print("[emulator log] ");
-      fmt::print(format, args...);
-    }
-  }
-
   bool    is_enable_log;
   int     cycle;
   CPU     cpu;
@@ -38,6 +30,15 @@ public:
   Display display;
   Sound   sound;
   Delay   delay;
+
+private:
+  template<typename... Args>
+  inline void log_info(const char* const format, const Args&... args) {
+    if (is_enable_log) {
+      fmt::print("[emulator log] ");
+      fmt::print(format, args...);
+    }
+  }
 };
 
 } // namespace arabica
