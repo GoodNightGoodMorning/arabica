@@ -1,9 +1,7 @@
 #include <arabica/emulator/emulator.hpp>
 #include <cstdint>
-#include <cstdlib>
 #include <vector>
 #include <random>
-#include <fmt/core.h>
 
 namespace arabica {
 

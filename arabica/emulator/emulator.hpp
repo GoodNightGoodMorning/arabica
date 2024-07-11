@@ -6,6 +6,7 @@
 #include <arabica/driver/display.hpp>
 #include <arabica/driver/sound.hpp>
 #include <arabica/driver/delay.hpp>
+#include <fmt/core.h>
 
 namespace arabica {
 

@@ -2,7 +2,6 @@
 
 #include <array>
 #include <cstdint>
-#include <cstddef>
 #include <string>
 
 namespace arabica {

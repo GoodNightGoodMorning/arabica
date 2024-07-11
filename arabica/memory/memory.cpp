@@ -1,6 +1,6 @@
+#include <arabica/memory/memory.hpp>
 #include <iostream>
 #include <fstream>
-#include <arabica/memory/memory.hpp>
 #include <stdexcept>
 #include <fmt/core.h>
 
