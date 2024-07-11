@@ -6,7 +6,6 @@
 #define arabica_memory_test(test_case, address, value) \
   TEST(memory_test_suite, test_case) {                 \
     arabica::Emulator emulator;                        \
-    emulator.is_enable_log = false;                    \
     write_and_assert(address, value);                  \
   }
 

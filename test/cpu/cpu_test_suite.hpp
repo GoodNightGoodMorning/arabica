@@ -9,7 +9,6 @@
 #define arabica_cpu_test(test_case_name, test_case_body) \
   TEST(cpu_test_suite, test_case_name) {                 \
     arabica::Emulator emulator;                          \
-    emulator.is_enable_log = false;                      \
     test_case_body                                       \
   }
 
