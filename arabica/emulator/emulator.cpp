@@ -589,7 +589,7 @@ void Emulator::single_step() {
       cpu.advance_pc();
     } break;
     default: {
-      fmt::print("[emulator log] Unknown opcode: 0x{:X}\n", static_cast<uint16_t>(cpu.opcode));
+      log_info("Unknown opcode: 0x{:X}\n", static_cast<uint16_t>(cpu.opcode));
     } break;
   }
 }
