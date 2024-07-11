@@ -506,6 +506,8 @@ void Emulator::single_step() {
         sprite_data.push_back(memory.read(cpu.reg_I + i));
       }
 
+      cpu.registers[0xF] = 0;
+
       int vertical_offset = display.scale * (display.height - nibble) / 5;
       for (int y = 0; y < nibble; ++y) {
         const uint8_t sprite_row = sprite_data[y];
@@ -514,7 +516,6 @@ void Emulator::single_step() {
           const int     screen_x    = (cpu.registers[vx] + x) % display.width;
           const int     screen_y    = (cpu.registers[vy] + y) % display.height;
 
-          cpu.registers[0xF] = 0;
           if (pixel_value == 1) {
             if (display.get_pixel(screen_x * display.scale, (screen_y * display.scale) + vertical_offset)) {
               cpu.registers[0xF] = 1;
