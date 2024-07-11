@@ -10,7 +10,7 @@ public:
     }
   }
 
-  void init(int w, int h, int s) {
+  void init(const int w, const int h, const int s) {
     width  = w;
     height = h;
     scale  = s;
@@ -18,13 +18,13 @@ public:
     reset_pixel();
   }
 
-  void set_pixel(int x, int y, uint32_t color) {
+  void set_pixel(const int x, const int y, const uint32_t color) {
     if (x >= 0 && x < width * scale && y >= 0 && y < height * scale) {
       pixels[y * width * scale + x] = color;
     }
   }
 
-  uint32_t get_pixel(int x, int y) const {
+  uint32_t get_pixel(const int x, const int y) const {
     if (x >= 0 && x < width * scale && y >= 0 && y < height * scale) {
       return pixels[y * width * scale + x];
     }
