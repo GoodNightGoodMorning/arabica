@@ -7,13 +7,13 @@ namespace arabica {
 
 class Sound {
 public:
-  Sound()
-    : rate(0)
-    , _device(0) {
-    if (SDL_WasInit(SDL_INIT_AUDIO) == 0) {
-      SDL_Init(SDL_INIT_AUDIO);
-    }
+  static uint32_t s_sample_index;
 
+  Sound(uint32_t sample_rate = 44100, uint32_t frequency = 440, int16_t volume = 3000)
+    : _device(0)
+    , sample_rate(sample_rate)
+    , frequency(frequency)
+    , volume(volume) {
     // The following comments source from: http://devernay.free.fr/hacks/chip8/C8TECH10.HTM#2.5
     //
     // Chip-8 provides a sound timer.
@@ -26,31 +26,21 @@ public:
     // The sound produced by the Chip-8 interpreter has only one tone.
     // The frequency of this tone is decided by the author of the interpreter.
     //
-    SDL_AudioSpec desired_spec;
+    SDL_zero(_desired_spec);
     {
-      SDL_zero(desired_spec);
-      desired_spec.freq     = 44100;        // https://en.wikipedia.org/wiki/44,100_Hz
-      desired_spec.format   = AUDIO_F32SYS; // 32-bit float format
-      desired_spec.channels = 1;            // mono
-      desired_spec.samples  = 32;           // Buffer size in samples per channel
-      desired_spec.callback = []([[maybe_unused]] void* userdata, Uint8* stream, int len) {
-        auto* const fstream        = reinterpret_cast<float*>(stream);
-        const float amplitude      = 0.5f;
-        const float sample_rate    = 1 / 44100; // f = 1 / T = 1 / 44100 (hz)
-        const float tone_frequency = 440.0f;    // A4 note, https://en.wikipedia.org/wiki/A440_(pitch_standard)
-        for (int i = 0; i < len / sizeof(float); ++i) {
-          const auto omega = 2.0f * M_PI * tone_frequency; // angular speed
-          const auto scale = (i / sample_rate);
-          fstream[i]       = amplitude * sinf(omega * scale);
-        }
-      };
+      _desired_spec.freq     = sample_rate;    // https://en.wikipedia.org/wiki/44,100_Hz
+      _desired_spec.format   = AUDIO_S16LSB;   //
+      _desired_spec.channels = 1;              // mono
+      _desired_spec.samples  = 512;            // Buffer size in samples per channel
+      _desired_spec.callback = audio_callback; //
+      _desired_spec.userdata = this;           //
     }
 
-    // _device = SDL_OpenAudioDevice(nullptr, 0, &desired_spec, &_spec, 0);
-    // if (_device == 0) {
-    //   SDL_Log("Failed to open audio: %s", SDL_GetError());
-    //   SDL_Quit();
-    // }
+    _device = SDL_OpenAudioDevice(nullptr, 0, &_desired_spec, &_spec, 0);
+    if (_device == 0) {
+      SDL_Log("Failed to open audio: %s", SDL_GetError());
+      SDL_Quit();
+    }
   }
 
   ~Sound() {
@@ -72,11 +62,30 @@ public:
     }
   }
 
-  int rate = 0;
+  uint32_t sample_rate;
+  uint32_t frequency;
+  int16_t  volume;
 
 private:
-  SDL_AudioDeviceID _device{0};
+  SDL_AudioDeviceID _device;
   SDL_AudioSpec     _spec{};
+  SDL_AudioSpec     _desired_spec{};
+
+  // The following implementation source from the function which in the following GitHub repository
+  // link: https://github.com/queso-fuego/chip8_emulator_c/blob/master/chip8.c#L98
+  static void audio_callback(void* const userdata, Uint8* const stream, const int len) {
+    auto* const sound = static_cast<Sound*>(userdata);
+
+    int16_t* const audio_data              = reinterpret_cast<int16_t*>(stream);
+    const int32_t  square_wave_period      = sound->sample_rate / sound->frequency;
+    const int32_t  half_square_wave_period = square_wave_period >> 1;
+
+    for (int i = 0; i < (len >> 1); i++) {
+      audio_data[i] = ((s_sample_index++ / half_square_wave_period) % 2) ? sound->volume : -sound->volume;
+    }
+  }
 };
+
+inline uint32_t Sound::s_sample_index = 0;
 
 } // namespace arabica

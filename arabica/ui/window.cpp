@@ -8,7 +8,7 @@ Uint32 _on_tick(Uint32 interval, void* userdata) {
 }
 
 Window::Window(const std::string& title, const int width, const int height, const std::string& rom) {
-  if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0) {
+  if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO) < 0) {
     fmt::print("SDL could not initialize! SDL_Error: {}\n", SDL_GetError());
     std::exit(1);
   }

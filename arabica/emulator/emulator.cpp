@@ -424,8 +424,8 @@ void Emulator::single_step() {
     case OP_CODE::LD_ST_Vx: {
       const uint8_t vx = (cpu.instruction & 0x0F00) >> 8;
       cpu.reg_sound    = cpu.registers[vx];
-      sound.rate       = cpu.reg_sound;
-      if (sound.rate > 0) {
+      sound.frequency  = cpu.reg_sound;
+      if (sound.frequency > 0) {
         sound.start_beep();
       }
       cpu.advance_pc();
