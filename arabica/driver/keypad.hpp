@@ -23,8 +23,9 @@ public:
     return last_key_pressed_code;
   }
 
+  int last_key_pressed_code = -1;
+
 private:
-  int                  last_key_pressed_code = -1;
   std::array<bool, 16> keys_pressed_status{};
 };
 

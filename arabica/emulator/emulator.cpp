@@ -447,8 +447,9 @@ void Emulator::single_step() {
     case OP_CODE::LD_Vx_K: {
       const uint8_t vx = (cpu.instruction & 0x0F00) >> 8;
 
-      if (keypad.is_keypressed(cpu.registers[vx])) {
-        cpu.registers[vx] = keypad.get_last_keypressed_code();
+      const auto keycode = keypad.get_last_keypressed_code();
+      if (keycode != -1) {
+        cpu.registers[vx] = keycode;
         cpu.advance_pc();
       }
     } break;
