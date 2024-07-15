@@ -11,7 +11,7 @@
 
 #define arabica_keypress_test(i)                      \
   arabica_keypress_test_impl(test_key##i##_down, {    \
-    emulator.keypad.last_key_pressed_code = 0x##i;    \
+    emulator.keypad.last_keypressed_code = 0x##i;     \
     emulator.memory.write(emulator.cpu.pc + 0, 0xF0); \
     emulator.memory.write(emulator.cpu.pc + 1, 0x0A); \
     emulator.single_step();                           \
