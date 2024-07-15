@@ -99,7 +99,7 @@ void Window::on_keyboard(const SDL_Keycode keycode) {
     case SDLK_d: emulator.keypad.keydown_code = 0xD; break;
     case SDLK_e: emulator.keypad.keydown_code = 0xE; break;
     case SDLK_f: emulator.keypad.keydown_code = 0xF; break;
-    default: break;
+    default: emulator.keypad.keydown_code = -1; break;
   }
 }
 
