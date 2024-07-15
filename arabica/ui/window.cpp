@@ -73,7 +73,8 @@ void Window::execute() {
             }
           }
         } break;
-        case SDL_KEYDOWN: on_keyboard(_event.key.keysym.sym); break;
+        case SDL_KEYDOWN: on_keyboard(_event.key.keysym.sym, true); break;
+        case SDL_KEYUP: on_keyboard(_event.key.keysym.sym, false); break;
         default: break;
       }
     }
@@ -81,25 +82,29 @@ void Window::execute() {
   }
 }
 
-void Window::on_keyboard(const SDL_Keycode keycode) {
-  switch (keycode) {
-    case SDLK_0: emulator.keypad.keydown_code = 0x0; break;
-    case SDLK_1: emulator.keypad.keydown_code = 0x1; break;
-    case SDLK_2: emulator.keypad.keydown_code = 0x2; break;
-    case SDLK_3: emulator.keypad.keydown_code = 0x3; break;
-    case SDLK_4: emulator.keypad.keydown_code = 0x4; break;
-    case SDLK_5: emulator.keypad.keydown_code = 0x5; break;
-    case SDLK_6: emulator.keypad.keydown_code = 0x6; break;
-    case SDLK_7: emulator.keypad.keydown_code = 0x7; break;
-    case SDLK_8: emulator.keypad.keydown_code = 0x8; break;
-    case SDLK_9: emulator.keypad.keydown_code = 0x9; break;
-    case SDLK_a: emulator.keypad.keydown_code = 0xA; break;
-    case SDLK_b: emulator.keypad.keydown_code = 0xB; break;
-    case SDLK_c: emulator.keypad.keydown_code = 0xC; break;
-    case SDLK_d: emulator.keypad.keydown_code = 0xD; break;
-    case SDLK_e: emulator.keypad.keydown_code = 0xE; break;
-    case SDLK_f: emulator.keypad.keydown_code = 0xF; break;
-    default: emulator.keypad.keydown_code = -1; break;
+void Window::on_keyboard(const SDL_Keycode keycode, const bool is_pressed) {
+  if (is_pressed) {
+    switch (keycode) {
+      case SDLK_0: emulator.keypad.keydown_code = 0x0; break;
+      case SDLK_1: emulator.keypad.keydown_code = 0x1; break;
+      case SDLK_2: emulator.keypad.keydown_code = 0x2; break;
+      case SDLK_3: emulator.keypad.keydown_code = 0x3; break;
+      case SDLK_4: emulator.keypad.keydown_code = 0x4; break;
+      case SDLK_5: emulator.keypad.keydown_code = 0x5; break;
+      case SDLK_6: emulator.keypad.keydown_code = 0x6; break;
+      case SDLK_7: emulator.keypad.keydown_code = 0x7; break;
+      case SDLK_8: emulator.keypad.keydown_code = 0x8; break;
+      case SDLK_9: emulator.keypad.keydown_code = 0x9; break;
+      case SDLK_a: emulator.keypad.keydown_code = 0xA; break;
+      case SDLK_b: emulator.keypad.keydown_code = 0xB; break;
+      case SDLK_c: emulator.keypad.keydown_code = 0xC; break;
+      case SDLK_d: emulator.keypad.keydown_code = 0xD; break;
+      case SDLK_e: emulator.keypad.keydown_code = 0xE; break;
+      case SDLK_f: emulator.keypad.keydown_code = 0xF; break;
+      default: emulator.keypad.keydown_code = -1; break;
+    }
+  } else {
+    emulator.keypad.keydown_code = -1;
   }
 }
 
