@@ -106,7 +106,7 @@ void Emulator::single_step() {
     //
     // Clear the display.
     case OP_CODE::CLS: {
-      display.reset_pixel();
+      display.reset();
       display.flag = true;
       cpu.advance_pc();
     } break;
@@ -512,17 +512,10 @@ void Emulator::single_step() {
           const int     screen_y    = (cpu.registers[vy] + y) % display.height;
 
           if (pixel_value == 1) {
-            if (display.get_pixel(screen_x * display.scale, (screen_y * display.scale) + vertical_offset)) {
+            if (display.get(screen_x * display.scale, (screen_y * display.scale) + vertical_offset)) {
               cpu.registers[0xF] = 1;
             }
-            for (int dy = 0; dy < display.scale; ++dy) {
-              for (int dx = 0; dx < display.scale; ++dx) {
-                const auto cx    = screen_x * display.scale + dx;
-                const auto cy    = screen_y * display.scale + dy + vertical_offset;
-                const auto pixel = display.get_pixel(cx, cy);
-                display.set_pixel(cx, cy, pixel ^ 255);
-              }
-            }
+            display.update(screen_x, screen_y, vertical_offset);
           }
         }
       }
