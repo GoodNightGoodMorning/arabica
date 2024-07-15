@@ -506,7 +506,7 @@ void Emulator::single_step() {
 
       cpu.registers[0xF] = 0;
 
-      int vertical_offset = display.scale * (display.height - nibble) / 5;
+      int vertical_offset = display.scale * display.height / 5;
       for (int y = 0; y < nibble; ++y) {
         const uint8_t sprite_row = sprite_data[y];
         for (int x = 0; x < 8; ++x) {

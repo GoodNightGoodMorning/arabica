@@ -104,16 +104,17 @@ void Window::on_keyboard(const SDL_Keycode keycode) {
 }
 
 void Window::on_render() {
-  SDL_RenderClear(_renderer);
   if (emulator.display.flag) {
+    SDL_RenderClear(_renderer);
     SDL_UpdateTexture(_texture,
                       nullptr,
                       emulator.display.pixels,
                       emulator.display.width * emulator.display.scale * sizeof(uint32_t));
     emulator.display.flag = false;
+
+    SDL_RenderCopy(_renderer, _texture, nullptr, nullptr);
+    SDL_RenderPresent(_renderer);
   }
-  SDL_RenderCopy(_renderer, _texture, nullptr, nullptr);
-  SDL_RenderPresent(_renderer);
 }
 
 Uint32 Window::on_tick(Uint32 interval, void* userdata) {
