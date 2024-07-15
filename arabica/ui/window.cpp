@@ -83,28 +83,33 @@ void Window::execute() {
 }
 
 void Window::on_keyboard(const SDL_Keycode keycode, const bool is_pressed) {
-  if (is_pressed) {
-    switch (keycode) {
-      case SDLK_0: emulator.keypad.keydown_code = 0x0; break;
-      case SDLK_1: emulator.keypad.keydown_code = 0x1; break;
-      case SDLK_2: emulator.keypad.keydown_code = 0x2; break;
-      case SDLK_3: emulator.keypad.keydown_code = 0x3; break;
-      case SDLK_4: emulator.keypad.keydown_code = 0x4; break;
-      case SDLK_5: emulator.keypad.keydown_code = 0x5; break;
-      case SDLK_6: emulator.keypad.keydown_code = 0x6; break;
-      case SDLK_7: emulator.keypad.keydown_code = 0x7; break;
-      case SDLK_8: emulator.keypad.keydown_code = 0x8; break;
-      case SDLK_9: emulator.keypad.keydown_code = 0x9; break;
-      case SDLK_a: emulator.keypad.keydown_code = 0xA; break;
-      case SDLK_b: emulator.keypad.keydown_code = 0xB; break;
-      case SDLK_c: emulator.keypad.keydown_code = 0xC; break;
-      case SDLK_d: emulator.keypad.keydown_code = 0xD; break;
-      case SDLK_e: emulator.keypad.keydown_code = 0xE; break;
-      case SDLK_f: emulator.keypad.keydown_code = 0xF; break;
-      default: emulator.keypad.keydown_code = -1; break;
+  int chip8_keycode = -1;
+  switch (keycode) {
+    case SDLK_0: chip8_keycode = 0x00; break;
+    case SDLK_1: chip8_keycode = 0x01; break;
+    case SDLK_2: chip8_keycode = 0x02; break;
+    case SDLK_3: chip8_keycode = 0x03; break;
+    case SDLK_4: chip8_keycode = 0x04; break;
+    case SDLK_5: chip8_keycode = 0x05; break;
+    case SDLK_6: chip8_keycode = 0x06; break;
+    case SDLK_7: chip8_keycode = 0x07; break;
+    case SDLK_8: chip8_keycode = 0x08; break;
+    case SDLK_9: chip8_keycode = 0x09; break;
+    case SDLK_a: chip8_keycode = 0x0A; break;
+    case SDLK_b: chip8_keycode = 0x0B; break;
+    case SDLK_c: chip8_keycode = 0x0C; break;
+    case SDLK_d: chip8_keycode = 0x0D; break;
+    case SDLK_e: chip8_keycode = 0x0E; break;
+    case SDLK_f: chip8_keycode = 0x0F; break;
+    default: break;
+  }
+
+  if (chip8_keycode != -1) {
+    if (is_pressed) {
+      emulator.keypad.on_keydown(chip8_keycode);
+    } else {
+      emulator.keypad.on_keyup(chip8_keycode);
     }
-  } else {
-    emulator.keypad.keydown_code = -1;
   }
 }
 

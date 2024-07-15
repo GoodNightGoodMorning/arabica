@@ -18,7 +18,7 @@ bool Emulator::load(const std::string& rom) {
 }
 
 void Emulator::execute() {
-  is_enable_log = true;
+  is_enable_log = false;
 
   log_info("PC = {:x}\n", cpu.pc);
   single_step();
@@ -107,8 +107,7 @@ void Emulator::single_step() {
     // Clear the display.
     case OP_CODE::CLS: {
       display.reset_pixel();
-      display.flag       = true;
-      cpu.registers[0xF] = 0;
+      display.flag = true;
       cpu.advance_pc();
     } break;
     // 1nnn - JP addr
@@ -448,11 +447,8 @@ void Emulator::single_step() {
     case OP_CODE::LD_Vx_K: {
       const uint8_t vx = (cpu.instruction & 0x0F00) >> 8;
 
-      if (keypad.keydown_code != -1) {
-        log_info("pressed key is {}\n", keypad.keydown_code);
-        cpu.registers[vx]   = keypad.keydown_code;
-        keypad.keydown_code = -1;
-        log_info("reg{} is {}\n", vx, cpu.registers[vx]);
+      if (keypad.is_keypressed(cpu.registers[vx])) {
+        cpu.registers[vx] = keypad.get_last_keypressed_code();
         cpu.advance_pc();
       }
     } break;
@@ -465,7 +461,7 @@ void Emulator::single_step() {
     case OP_CODE::SKP_Vx: {
       const uint8_t vx = (cpu.instruction & 0x0F00) >> 8;
 
-      if (keypad.keydown_code == cpu.registers[vx]) {
+      if (keypad.is_keypressed(cpu.registers[vx])) {
         cpu.advance_pc();
       }
       cpu.advance_pc();
@@ -479,7 +475,7 @@ void Emulator::single_step() {
     case OP_CODE::SKNP_Vx: {
       const uint8_t vx = (cpu.instruction & 0x0F00) >> 8;
 
-      if (keypad.keydown_code != cpu.registers[vx]) {
+      if (!keypad.is_keypressed(cpu.registers[vx])) {
         cpu.advance_pc();
       }
       cpu.advance_pc();
