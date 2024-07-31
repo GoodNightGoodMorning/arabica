@@ -25,8 +25,6 @@ jobs:
         run: ./vcpkg.sh
       - name: build desktop
         run: make build_desktop
-      - name: build webassembly
-        run: make build_webassembly
       - name: build test
         run: make test
 
@@ -49,8 +47,6 @@ jobs:
         run: ./vcpkg.sh
       - name: build desktop
         run: make build_desktop
-      - name: build webassembly
-        run: make build_webassembly
       - name: build test
         run: make test
 
