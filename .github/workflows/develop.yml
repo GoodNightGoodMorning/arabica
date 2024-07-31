@@ -17,6 +17,9 @@ jobs:
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
       - uses: actions/checkout@v4
+      - uses: lovasoa/setup-emscripten@master
+        with:
+          emscripten-version: '1.38.47'
       - uses: lukka/get-cmake@latest
       - name: install dependencies
         run: ./vcpkg.sh
@@ -38,6 +41,9 @@ jobs:
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
       - uses: actions/checkout@v4
+      - uses: lovasoa/setup-emscripten@master
+        with:
+          emscripten-version: '1.38.47'
       - uses: lukka/get-cmake@latest
       - name: install dependencies
         run: ./vcpkg.sh
