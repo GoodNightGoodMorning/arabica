@@ -20,9 +20,11 @@ jobs:
       - uses: lukka/get-cmake@latest
       - name: install dependencies
         run: ./vcpkg.sh
-      - name: build
-        run: make build
-      - name: build
+      - name: build desktop
+        run: make build_desktop
+      - name: build webassembly
+        run: make build_webassembly
+      - name: build test
         run: make test
 
   ci-mac:
@@ -39,9 +41,11 @@ jobs:
       - uses: lukka/get-cmake@latest
       - name: install dependencies
         run: ./vcpkg.sh
-      - name: build
-        run: make build
-      - name: build
+      - name: build desktop
+        run: make build_desktop
+      - name: build webassembly
+        run: make build_webassembly
+      - name: build test
         run: make test
 
   fmt:
