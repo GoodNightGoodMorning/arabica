@@ -6,7 +6,12 @@
 #include <arabica/device/display.hpp>
 #include <arabica/device/sound.hpp>
 #include <arabica/device/delay.hpp>
+
+#ifdef __EMSCRIPTEN__
+#else
 #include <fmt/core.h>
+#endif
+
 #include <random>
 
 namespace arabica {
@@ -48,8 +53,8 @@ private:
   template<typename... Args>
   inline void log_info(const char* const format, const Args&... args) {
     if (is_enable_log) {
-      fmt::print("[emulator log] ");
-      fmt::print(format, args...);
+      // fmt::print("[emulator log] ");
+      // fmt::print(format, args...);
     }
   }
 };

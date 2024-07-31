@@ -12,6 +12,7 @@ public:
   ~Window();
 
   void execute();
+  void polling();
 
   void   on_keyboard(const SDL_Keycode keycode, const bool is_pressed);
   void   on_render();

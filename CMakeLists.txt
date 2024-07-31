@@ -25,17 +25,18 @@ file(GLOB_RECURSE src_test     "${dir_test}/*.cpp")
 
 OPTION(BUILD_APP  "Build App"  OFF)
 OPTION(BUILD_TEST "Build Test" OFF)
-
-add_library(${dir_emulator} ${src_emulator})
-
-target_compile_options(${dir_emulator} PUBLIC -g)
-target_compile_options(${dir_emulator} PUBLIC -O0)
-
-target_link_libraries(${dir_emulator} PUBLIC -lm)
-target_link_libraries(${dir_emulator} PUBLIC fmt::fmt)
-target_link_libraries(${dir_emulator} PUBLIC SDL2::SDL2)
+OPTION(BUILD_WASM "Build WASM" OFF)
 
 IF(BUILD_APP)
+  add_library(${dir_emulator} ${src_emulator})
+
+  target_compile_options(${dir_emulator} PUBLIC -g)
+  target_compile_options(${dir_emulator} PUBLIC -O0)
+
+  target_link_libraries(${dir_emulator} PUBLIC -lm)
+  target_link_libraries(${dir_emulator} PUBLIC fmt::fmt)
+  target_link_libraries(${dir_emulator} PUBLIC SDL2::SDL2)
+
   add_executable(${project_name}.out ${src_app})
 
   target_compile_options(${project_name}.out PRIVATE -g)
@@ -45,6 +46,15 @@ IF(BUILD_APP)
 ENDIF(BUILD_APP)
 
 IF(BUILD_TEST)
+  add_library(${dir_emulator} ${src_emulator})
+
+  target_compile_options(${dir_emulator} PUBLIC -g)
+  target_compile_options(${dir_emulator} PUBLIC -O0)
+
+  target_link_libraries(${dir_emulator} PUBLIC -lm)
+  target_link_libraries(${dir_emulator} PUBLIC fmt::fmt)
+  target_link_libraries(${dir_emulator} PUBLIC SDL2::SDL2)
+
   add_executable(test_${project_name}.out ${src_test})
 
   target_compile_options(test_${project_name}.out PRIVATE -g)
@@ -57,3 +67,23 @@ IF(BUILD_TEST)
                                                         GTest::gmock_main)
 ENDIF(BUILD_TEST)
 
+IF(BUILD_WASM)
+  set(CMAKE_CXX_COMPILER em++)
+  set(CMAKE_C_COMPILER   emcc)
+  set(CMAKE_EXECUTABLE_SUFFIX ".html")
+
+  add_library(${dir_emulator} ${src_emulator})
+
+  target_compile_options(${dir_emulator} PUBLIC -g)
+  target_compile_options(${dir_emulator} PUBLIC -O0)
+
+  target_link_libraries(${dir_emulator} PUBLIC "-s WASM=1 -s USE_SDL=2 -s -O3 --preload-file ../roms@/roms")
+
+  add_executable(${project_name}_wasm ${src_app})
+
+  target_compile_options(${project_name}_wasm PRIVATE -O3)
+  
+  target_link_libraries(${project_name}_wasm PUBLIC ${dir_emulator})
+
+  set_target_properties(${project_name}_wasm PROPERTIES LINK_FLAGS "-s WASM=1 -s USE_SDL=2 -s -O3 --preload-file ../roms@/roms")
+ENDIF(BUILD_WASM)

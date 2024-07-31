@@ -2,7 +2,11 @@
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
+
+#ifdef __EMSCRIPTEN__
+#else
 #include <fmt/core.h>
+#endif
 
 namespace arabica {
 
@@ -49,7 +53,7 @@ void Memory::is_valid(const address_t address) const {
 bool Memory::load(const std::string& rom) {
   std::ifstream file(rom, std::ios::binary | std::ios::ate);
   if (!file) {
-    fmt::print("Failed to open the file.");
+    // fmt::print("Failed to open the file.");
     return false;
   }
 
