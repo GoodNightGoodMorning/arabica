@@ -1,12 +1,8 @@
 #include <arabica/memory/memory.hpp>
+#include <arabica/log/log.hpp>
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
-
-#ifdef __EMSCRIPTEN__
-#else
-#include <fmt/core.h>
-#endif
 
 namespace arabica {
 
@@ -53,7 +49,7 @@ void Memory::is_valid(const address_t address) const {
 bool Memory::load(const std::string& rom) {
   std::ifstream file(rom, std::ios::binary | std::ios::ate);
   if (!file) {
-    // fmt::print("Failed to open the file.");
+    ARABICA_LOG_INFO("{}\n", "Failed to open the file.");
     return false;
   }
 

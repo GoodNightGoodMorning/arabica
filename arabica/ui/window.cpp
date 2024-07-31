@@ -1,9 +1,8 @@
 #include <arabica/ui/window.hpp>
+#include <arabica/log/log.hpp>
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten/emscripten.h>
-#else
-#include <fmt/core.h>
 #endif
 
 namespace arabica {
@@ -14,17 +13,17 @@ Uint32 _on_tick(const Uint32 interval, void* userdata) {
 
 Window::Window(const std::string& title, const int width, const int height, const std::string& rom) {
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO) < 0) {
-    // fmt::print("SDL could not initialize! SDL_Error: {}\n", SDL_GetError());
+    ARABICA_LOG_INFO("SDL could not initialize! SDL_Error: {}\n", SDL_GetError());
     std::exit(1);
   }
 
   if (!emulator.init()) {
-    // fmt::print("Failed to initialize emulator");
+    ARABICA_LOG_INFO("{}\n", "Failed to initialize emulator");
     std::exit(1);
   }
 
   if (!emulator.load(rom)) {
-    // fmt::print("Failed to load rom");
+    ARABICA_LOG_INFO("{}\n", "Failed to load rom");
     std::exit(1);
   }
 
@@ -40,13 +39,13 @@ Window::Window(const std::string& title, const int width, const int height, cons
                              height,                  //
                              SDL_WINDOW_SHOWN);       //
   if (_window == nullptr) {
-    // fmt::print("Window could not be created! SDL_Error: {}\n", SDL_GetError());
+    ARABICA_LOG_INFO("Window could not be created! SDL_Error: {}\n", SDL_GetError());
     std::exit(1);
   }
 
   _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
   if (_renderer == nullptr) {
-    // fmt::print("Renderer could not be created! SDL_Error: {}\n", SDL_GetError());
+    ARABICA_LOG_INFO("Renderer could not be created! SDL_Error: {}\n", SDL_GetError());
     std::exit(1);
   }
 
@@ -92,7 +91,7 @@ void Window::polling() {
       case SDL_WINDOWEVENT: {
         if (_event.window.event == SDL_WINDOWEVENT_CLOSE) {
           if (SDL_FALSE == SDL_RemoveTimer(_timer_id)) {
-            // fmt::print("Failed to remove timer! SDL_Error: {}\n", SDL_GetError());
+            ARABICA_LOG_INFO("Failed to remove timer! SDL_Error: {}\n", SDL_GetError());
             std::exit(1);
           }
         }

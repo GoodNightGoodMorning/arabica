@@ -1,4 +1,5 @@
 #include <arabica/emulator/emulator.hpp>
+#include <arabica/log/log.hpp>
 #include <cstdint>
 #include <vector>
 
@@ -13,9 +14,7 @@ bool Emulator::load(const std::string& rom) {
 }
 
 void Emulator::execute() {
-  is_enable_log = false;
-
-  log_info("PC = {:x}\n", cpu.pc);
+  ARABICA_LOG_INFO("PC = {:x}\n", cpu.pc);
 
   // 500 Hz / 60 FPS = 500 (Instructions / Second) / 60 (Frames / Second) = 500 / 60 (Instructions / Frame)
   const int instructions_pre_frames = cpu.clock_speed / fps;
@@ -23,7 +22,7 @@ void Emulator::execute() {
     single_step();
   }
 
-  log_info("The current cycle is {}\n", cycle);
+  ARABICA_LOG_INFO("The current cycle is {}\n", cycle);
   cycle++;
 
   delay.tick();
@@ -35,7 +34,7 @@ void Emulator::single_step() {
   uint16_t prefix = cpu.instruction & 0xF000;
   cpu.opcode      = static_cast<OP_CODE>(prefix);
 
-  log_info("cpu.instruction is {0:x}\n", cpu.instruction);
+  ARABICA_LOG_INFO("cpu.instruction is {0:x}\n", cpu.instruction);
 
   switch (prefix) {
     case 0x0: {
@@ -552,7 +551,7 @@ void Emulator::single_step() {
       cpu.advance_pc();
     } break;
     default: {
-      log_info("Unknown opcode: 0x{:X}\n", static_cast<uint16_t>(cpu.opcode));
+      ARABICA_LOG_INFO("Unknown opcode: 0x{:X}\n", static_cast<uint16_t>(cpu.opcode));
     } break;
   }
 }
