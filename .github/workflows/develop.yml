@@ -42,7 +42,7 @@ jobs:
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
       - uses: actions/checkout@v4
       - uses: mymindstorm/setup-emsdk@v14
-      - names: verify emscripten toolchain
+      - name: verify emscripten toolchain
         run: emcc -v
       - uses: lukka/get-cmake@latest
       - name: install dependencies
