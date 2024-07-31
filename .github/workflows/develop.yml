@@ -26,7 +26,7 @@ jobs:
       - name: build desktop
         run: make build_desktop
       - name: build test
-        run: make test
+        run: make build_test
 
   ci-mac:
     name: Build on MacOS
@@ -48,7 +48,7 @@ jobs:
       - name: build desktop
         run: make build_desktop
       - name: build test
-        run: make test
+        run: make build_test
 
   fmt:
     name: Formatting Check
