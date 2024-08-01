@@ -1,5 +1,4 @@
 # CHIP-8 ROM
-roms/
 *.ch8
 
 # VSCode
