@@ -23,28 +23,31 @@ file(GLOB_RECURSE src_app      "${dir_app}/*.cpp")
 file(GLOB_RECURSE src_emulator "${dir_emulator}/*.cpp")
 file(GLOB_RECURSE src_test     "${dir_test}/*.cpp")
 
-OPTION(BUILD_APP  "Build App"  OFF)
-OPTION(BUILD_TEST "Build Test" OFF)
+OPTION(BUILD_DESKTOP "Build Desktop"     OFF)
+OPTION(BUILD_TEST    "Build Test"        OFF)
+OPTION(BUILD_WASM    "Build Webassembly" OFF)
 
 add_library(${dir_emulator} ${src_emulator})
 
 target_compile_options(${dir_emulator} PUBLIC -g)
 target_compile_options(${dir_emulator} PUBLIC -O0)
 
-target_link_libraries(${dir_emulator} PUBLIC -lm)
-target_link_libraries(${dir_emulator} PUBLIC fmt::fmt)
-target_link_libraries(${dir_emulator} PUBLIC SDL2::SDL2)
+IF(BUILD_DESKTOP)
+  target_link_libraries(${dir_emulator} PUBLIC fmt::fmt)
+  target_link_libraries(${dir_emulator} PUBLIC SDL2::SDL2)
 
-IF(BUILD_APP)
   add_executable(${project_name}.out ${src_app})
 
   target_compile_options(${project_name}.out PRIVATE -g)
   target_compile_options(${project_name}.out PRIVATE -O0)
 
   target_link_libraries(${project_name}.out PUBLIC ${dir_emulator})
-ENDIF(BUILD_APP)
+ENDIF(BUILD_DESKTOP)
 
 IF(BUILD_TEST)
+  target_link_libraries(${dir_emulator} PUBLIC fmt::fmt)
+  target_link_libraries(${dir_emulator} PUBLIC SDL2::SDL2)
+
   add_executable(test_${project_name}.out ${src_test})
 
   target_compile_options(test_${project_name}.out PRIVATE -g)
@@ -57,3 +60,15 @@ IF(BUILD_TEST)
                                                         GTest::gmock_main)
 ENDIF(BUILD_TEST)
 
+IF(BUILD_WASM)
+  set(CMAKE_EXECUTABLE_SUFFIX ".html")
+
+  target_link_libraries(${dir_emulator} PUBLIC "-s WASM=1 -s USE_SDL=2 -s -O3 --preload-file ../roms@/roms")
+
+  add_executable(${project_name}_wasm ${src_app})
+
+  target_compile_options(${project_name}_wasm PRIVATE -g)
+  target_compile_options(${project_name}_wasm PRIVATE -O0)
+  
+  target_link_libraries(${project_name}_wasm PUBLIC ${dir_emulator})
+ENDIF(BUILD_WASM)

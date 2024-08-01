@@ -17,13 +17,16 @@ jobs:
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
       - uses: actions/checkout@v4
+      - uses: mymindstorm/setup-emsdk@v14
+      - name: verify emscripten toolchain
+        run: emcc -v
       - uses: lukka/get-cmake@latest
       - name: install dependencies
         run: ./vcpkg.sh
-      - name: build
-        run: make build
-      - name: build
-        run: make test
+      - name: build desktop
+        run: make build_desktop
+      - name: build test
+        run: make build_test
 
   ci-mac:
     name: Build on MacOS
@@ -36,13 +39,16 @@ jobs:
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
       - uses: actions/checkout@v4
+      - uses: mymindstorm/setup-emsdk@v14
+      - name: verify emscripten toolchain
+        run: emcc -v
       - uses: lukka/get-cmake@latest
       - name: install dependencies
         run: ./vcpkg.sh
-      - name: build
-        run: make build
-      - name: build
-        run: make test
+      - name: build desktop
+        run: make build_desktop
+      - name: build test
+        run: make build_test
 
   fmt:
     name: Formatting Check

@@ -1,12 +1,28 @@
 #include <arabica/ui/window.hpp>
-#include <fmt/core.h>
+#include <arabica/log/log.hpp>
+
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#include <fstream>
+#include <sstream>
+#endif
+
+std::string rom_file(int argc, char* argv[]) {
+#ifdef __EMSCRIPTEN__
+  const char* const rom = "/roms/Tetris_Fran_Dachille_1991.ch8";
+  return rom;
+#else
+  if (argc != 2) {
+    ARABICA_LOG_INFO("Usage: ./arabica.out rom-file\n");
+    std::exit(1);
+  }
+  return argv[1];
+#endif
+}
 
 int main(int argc, char* argv[]) {
-  if (argc != 2) {
-    return 1;
-    fmt::print("Usage: ./arabica.out rom-file");
-  }
-  arabica::Window window("Arabica Emulator", 640, 320, argv[1]);
+  arabica::Window window("Arabica Emulator", 640, 320, rom_file(argc, argv));
   window.execute();
   return 0;
 }

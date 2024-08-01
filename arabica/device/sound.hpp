@@ -1,5 +1,6 @@
 #pragma once
 
+#include <arabica/log/log.hpp>
 #include <SDL2/SDL.h>
 #include <cmath>
 
@@ -41,7 +42,7 @@ public:
 
     _device = SDL_OpenAudioDevice(nullptr, 0, &_desired_spec, &_spec, 0);
     if (_device == 0) {
-      SDL_Log("Failed to open audio: %s", SDL_GetError());
+      ARABICA_LOG_INFO("Failed to open audio: %s", SDL_GetError());
       return false;
     }
 
