@@ -18,7 +18,7 @@ At a high level, Arabica is divided into several key components:
 
 # The CPU
 
-The CPU is implemented in [`arabica/cpu/cpu.hpp`](arabica/cpu/cpu.hpp) and [`arabica/cpu/cpu.cpp`](arabica/cpu/cpu.cpp). It supports the full CHIP-8 instruction set, including operations for arithmetic, control flow, and graphics. The CPU fetches, decodes, and executes instructions, updating the program counter (`pc`) and registers as needed.
+The CPU is implemented in [`arabica/cpu/cpu.hpp`](arabica/cpu/cpu.hpp). It supports the full CHIP-8 instruction set, including operations for arithmetic, control flow, and graphics. The CPU fetches, decodes, and executes instructions, updating the program counter (`pc`) and registers as needed.
 
 Key features:
 - 16 general-purpose 8-bit registers (`V0` to `VF`).
