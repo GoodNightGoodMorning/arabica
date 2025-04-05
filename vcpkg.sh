@@ -1,6 +1,8 @@
 #!/bin/sh
 
-dir_vcpkg=~/vcpkg
+export VCPKG_ROOT=~/vcpkg
+
+dir_vcpkg=$VCPKG_ROOT
 
 if ! [ -d "$dir_vcpkg" ]; then
   git clone https://github.com/microsoft/vcpkg $dir_vcpkg
