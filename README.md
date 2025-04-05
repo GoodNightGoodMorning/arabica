@@ -18,7 +18,7 @@ At a high level, Arabica is divided into several key components:
 
 # The CPU
 
-The CPU is implemented in [`arabica/cpu/cpu.hpp`](arabica/arabica/cpu/cpu.hpp) and [`arabica/cpu/cpu.cpp`](arabica/arabica/cpu/cpu.cpp). It supports the full CHIP-8 instruction set, including operations for arithmetic, control flow, and graphics. The CPU fetches, decodes, and executes instructions, updating the program counter (`pc`) and registers as needed.
+The CPU is implemented in [`arabica/cpu/cpu.hpp`](arabica/cpu/cpu.hpp) and [`arabica/cpu/cpu.cpp`](arabica/cpu/cpu.cpp). It supports the full CHIP-8 instruction set, including operations for arithmetic, control flow, and graphics. The CPU fetches, decodes, and executes instructions, updating the program counter (`pc`) and registers as needed.
 
 Key features:
 - 16 general-purpose 8-bit registers (`V0` to `VF`).
@@ -28,7 +28,7 @@ Key features:
 
 # The Memory
 
-The memory is implemented in [`arabica/memory/memory.hpp`](arabica/arabica/memory/memory.hpp) and [`arabica/memory/memory.cpp`](arabica/arabica/memory/memory.cpp). It provides 4KB of addressable space, with the first 512 bytes reserved for the interpreter. The memory module also includes functionality for loading ROMs and initializing font data.
+The memory is implemented in [`arabica/memory/memory.hpp`](arabica/memory/memory.hpp) and [`arabica/memory/memory.cpp`](arabica/memory/memory.cpp). It provides 4KB of addressable space, with the first 512 bytes reserved for the interpreter. The memory module also includes functionality for loading ROMs and initializing font data.
 
 Key features:
 - Memory-mapped layout as per the CHIP-8 specification.
@@ -39,14 +39,14 @@ Key features:
 
 Arabica includes several device modules to emulate CHIP-8 peripherals:
 
-- **Display**: Implemented in [`arabica/device/display.hpp`](arabica/arabica/device/display.hpp), it handles pixel rendering and collision detection.
-- **Keypad**: Implemented in [`arabica/device/keypad.hpp`](arabica/arabica/device/keypad.hpp), it maps keyboard inputs to CHIP-8 keys.
-- **Delay Timer**: Implemented in [`arabica/device/delay.hpp`](arabica/arabica/device/delay.hpp), it decrements at 60Hz.
-- **Sound Timer**: Implemented in [`arabica/device/sound.hpp`](arabica/arabica/device/sound.hpp), it produces a tone when active.
+- **Display**: Implemented in [`arabica/device/display.hpp`](arabica/device/display.hpp), it handles pixel rendering and collision detection.
+- **Keypad**: Implemented in [`arabica/device/keypad.hpp`](arabica/device/keypad.hpp), it maps keyboard inputs to CHIP-8 keys.
+- **Delay Timer**: Implemented in [`arabica/device/delay.hpp`](arabica/device/delay.hpp), it decrements at 60Hz.
+- **Sound Timer**: Implemented in [`arabica/device/sound.hpp`](arabica/device/sound.hpp), it produces a tone when active.
 
 # The Emulator
 
-The emulator is the central component, implemented in [`arabica/emulator/emulator.hpp`](arabica/arabica/emulator/emulator.hpp) and [`arabica/emulator/emulator.cpp`](arabica/arabica/emulator/emulator.cpp). It orchestrates the CPU, memory, and devices, ensuring proper execution of CHIP-8 programs.
+The emulator is the central component, implemented in [`arabica/emulator/emulator.hpp`](arabica/emulator/emulator.hpp) and [`arabica/emulator/emulator.cpp`](arabica/emulator/emulator.cpp). It orchestrates the CPU, memory, and devices, ensuring proper execution of CHIP-8 programs.
 
 Key features:
 - Instruction cycle management.
@@ -55,7 +55,7 @@ Key features:
 
 # The UI
 
-The UI is implemented in [`arabica/ui/window.hpp`](arabica/arabica/ui/window.hpp) and [`arabica/ui/window.cpp`](arabica/arabica/ui/window.cpp). It uses SDL2 to create a window, render the display, and handle user input.
+The UI is implemented in [`arabica/ui/window.hpp`](arabica/ui/window.hpp) and [`arabica/ui/window.cpp`](arabica/ui/window.cpp). It uses SDL2 to create a window, render the display, and handle user input.
 
 Key features:
 - Scaled rendering of the CHIP-8 display.
