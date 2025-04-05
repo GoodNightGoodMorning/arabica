@@ -11,8 +11,6 @@ if ! [ -d "$dir_vcpkg" ]; then
   $dir_vcpkg/bootstrap-vcpkg.sh
 fi
 
-triplet="x64-linux"
-
-$dir_vcpkg/vcpkg install fmt:$triplet
-$dir_vcpkg/vcpkg install sdl2:$triplet
-$dir_vcpkg/vcpkg install gtest:$triplet
+$dir_vcpkg/vcpkg install fmt
+$dir_vcpkg/vcpkg install sdl2
+$dir_vcpkg/vcpkg install gtest
