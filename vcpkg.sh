@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 export VCPKG_ROOT=~/vcpkg
 
 dir_vcpkg=$VCPKG_ROOT
@@ -9,6 +11,8 @@ if ! [ -d "$dir_vcpkg" ]; then
   $dir_vcpkg/bootstrap-vcpkg.sh
 fi
 
-$dir_vcpkg/vcpkg install fmt
-$dir_vcpkg/vcpkg install sdl2
-$dir_vcpkg/vcpkg install gtest
+triplet="x64-linux"
+
+$dir_vcpkg/vcpkg install fmt:$triplet
+$dir_vcpkg/vcpkg install sdl2:$triplet
+$dir_vcpkg/vcpkg install gtest:$triplet
